@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-export default function SearchRoot() {
+export default function SearchRoot({ navigation }) {
   return (
     <View>
       <Text>SearchTab</Text>
