@@ -1,6 +1,12 @@
 import React, { useEffect } from 'react';
-
-import { ScrollView, StyleSheet, Text, View, StatusBar } from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  StatusBar,
+  SafeAreaView,
+} from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as SplashScreen from 'expo-splash-screen';
 
@@ -20,17 +26,16 @@ export default function App() {
   }, []);
 
   return (
-    <>
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="light-content" />
       <Tabs />
-    </>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#212121',
   },
 });
