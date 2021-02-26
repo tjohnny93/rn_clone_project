@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -11,28 +11,66 @@ import { greaterThan } from 'react-native-reanimated';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const Tab = createBottomTabNavigator();
+const PLAY_ICON = {
+  false: 'ios-play',
+  true: 'pause',
+};
+const TAB_ICON = {
+  Home: 'home',
+  Search: 'search-outline',
+  Library: 'ios-library-sharp',
+  Premium: 'ios-musical-notes',
+};
 
 const MyTabBar = ({ state, descriptors, navigation }) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const changeCurrentlyPlaying = song_url => {
+    //
+    //여기서 현재 플레이되는 노래 변경
+    //
+  };
+
+  const togglePlay = () => {
+    setIsPlaying(!isPlaying);
+  };
+
   return (
     <View style={styles.container}>
+      <View style={{ backgroundColor: '#505050', height: 4 }}></View>
       <View style={styles.playerContainer}>
-        <Image
-          style={{ width: 64, height: 64 }}
-          source={{
-            uri: 'https://image.bugsm.co.kr/album/images/500/3917/391751.jpg',
-          }}
-        />
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={{ color: 'white', fontSize: 20 }}>자우림</Text>
-          <Text style={{ color: 'white', fontSize: 20 }}> - </Text>
-          <Text style={{ color: 'white', fontSize: 20 }}>
-            스물다섯, 스물하나
-          </Text>
+        <View style={{ flexDirection: 'row' }}>
+          <Image
+            style={{ width: 76, height: 76 }}
+            source={{
+              uri: 'https://image.bugsm.co.kr/album/images/500/3917/391751.jpg',
+            }}
+          />
+          <View
+            style={{
+              alignItems: 'flex-start',
+              justifyContent: 'center',
+              paddingLeft: 12,
+            }}
+          >
+            <Text style={{ color: 'white', fontSize: 20, paddingBottom: 4 }}>
+              자우림
+            </Text>
+            <Text style={{ color: '#909090', fontSize: 16 }}>
+              스물다섯, 스물하나
+            </Text>
+          </View>
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Icon name="ios-bluetooth" size={24} color="white" />
-          <Icon name="ios-play" size={30} color="white" />
-          <Icon name="pause" size={30} color="white" />
+          <TouchableOpacity>
+            <Icon name="ios-bluetooth" size={28} color="white" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => togglePlay()}
+            style={{ paddingLeft: 28 }}
+          >
+            <Icon name={PLAY_ICON[isPlaying]} size={36} color="white" />
+          </TouchableOpacity>
         </View>
       </View>
       <View style={styles.buttonContainer}>
@@ -61,13 +99,6 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
               type: 'tabLongPress',
               target: route.key,
             });
-          };
-
-          const TAB_ICON = {
-            Home: 'home',
-            Search: 'search-outline',
-            Library: 'ios-library-sharp',
-            Premium: 'ios-musical-notes',
           };
 
           return (
@@ -126,14 +157,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#212121',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 4,
+    paddingRight: 16,
   },
   buttonContainer: {
     flexDirection: 'row',
-    // paddingTop: 20,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // paddingLeft: 32,
     borderTopWidth: 1,
     borderColor: 'black',
     paddingTop: 8,
@@ -142,7 +169,5 @@ const styles = StyleSheet.create({
   tabButton: {
     flex: 1,
     alignItems: 'center',
-    // borderRightWidth: 1,
-    // borderRightColor: 'green',
   },
 });

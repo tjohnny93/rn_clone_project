@@ -1,37 +1,50 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
+import { View, Text, StyleSheet, Image } from 'react-native';
+import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 
-const MainList = ({ navigation }) => {
-  const renderList = ({ item }) => {
+const MainList = ({ navigation, data }) => {
+  const renderList = ({ item, index }) => {
     return (
-      <View style={styels.listItemWrapper}>
-        <View>
-          {/* <Image
-            source={{ uri: item.url }}
-            style={{ width: 100, height: 100, borderRadius: 50 }}
-          /> */}
+      <TouchableOpacity style={styles.listItemWrapper} activeOpacity={0.5}>
+        <View style={styles.categoryImage}>
+          <Image
+            source={{ uri: item.subCategory_image }}
+            style={{ width: 168, height: 168 }}
+          />
         </View>
-        <View>{/* <Text>{item.title}</Text> */}</View>
+        <View style={{ paddingTop: 12 }}>
+          <Text style={{ color: '#959595', fontWeight: 'bold' }}>
+            {item.subCategory_name}
+          </Text>
+        </View>
         <View>
           <Text>{/* {item.description} */}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
   return (
-    <View>
+    <View style={styles.mainListWrapper}>
       <View>
-        {/* <Text>{data.name}</Text> */}
-        <Text>리스트 맵돌리는 컴포넌트</Text>
+        <Text
+          style={{
+            fontSize: 28,
+            color: 'white',
+            fontWeight: 'bold',
+            paddingBottom: 20,
+            marginLeft: 16,
+          }}
+        >
+          {data.category_name}
+        </Text>
       </View>
       <FlatList
-        // data={data}
+        data={data.list}
         renderItem={renderList}
-        keyExtractor={item => String(item.id)} // 모바일은 id값을 부여할때 string으로 바꿔서 받아야한다
+        keyExtractor={item => String(item)} // 모바일은 id값을 부여할때 string으로 바꿔서 받아야한다
         horizontal={true} // horizontal 로만 작성 가능 true라 생략 가능
-        // showsHorizontalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
         // showsVerticalScrollIndicator={false}
         // listEmptyComponent, listHeaderComponent, listFooterComponent
         bounces={false}
@@ -41,6 +54,7 @@ const MainList = ({ navigation }) => {
         //   loading ? <ActivityIndicator size="large" /> : null //네이티브에서는 무조건 ternary로 조건부
         // }
       />
+      {/* {console.log(data.list)} */}
     </View>
   );
 };
@@ -48,10 +62,14 @@ const MainList = ({ navigation }) => {
 export default MainList;
 
 const styles = StyleSheet.create({
+  mainListWrapper: {},
+
   listItemWrapper: {
-    // flex: 1,
+    flex: 1,
     // flexDirection: 'row',
-    // justifyContent: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 16,
     // marginTop: 110,
     // borderTopWidth: 1,
     // borderTopColor: 'blue',

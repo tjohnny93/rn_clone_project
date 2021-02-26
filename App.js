@@ -28,6 +28,7 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
+      {/* <StatusBar barStyle="default" style={styles.topBar} /> */}
       <Tabs />
     </SafeAreaView>
   );
@@ -36,6 +37,9 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#212121',
+    backgroundColor: 'rgba(33, 33, 33, 1)',
+  },
+  topBar: {
+    // backgroundColor: 'rgba(33, 33, 33, 0.5)',
   },
 });
