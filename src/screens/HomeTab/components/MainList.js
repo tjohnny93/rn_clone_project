@@ -1,20 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 
-const MainList = ({ navigation, data }) => {
+const MainList = ({ navigation, data, selectedCategory, localToken }) => {
+  const goToListDetail = (id, data) => {
+    navigation.navigate('ListDetail', { id: id, data: data });
+  };
+
   const renderList = ({ item, index }) => {
     return (
-      <TouchableOpacity style={styles.listItemWrapper} activeOpacity={0.5}>
+      <TouchableOpacity
+        onPress={() => goToListDetail(item.id, item)}
+        style={styles.listItemWrapper}
+        activeOpacity={0.5}
+      >
         <View style={styles.categoryImage}>
           <Image
-            source={{ uri: item.subCategory_image }}
+            // source={{ uri: item.icons[0].url }}
+            source={{ uri: item.images[0].url }}
             style={{ width: 168, height: 168 }}
           />
         </View>
         <View style={{ paddingTop: 12 }}>
           <Text style={{ color: '#959595', fontWeight: 'bold' }}>
-            {item.subCategory_name}
+            {/* {item.subCategory_name} */}
+            {item.name}
           </Text>
         </View>
         <View>
@@ -26,23 +36,12 @@ const MainList = ({ navigation, data }) => {
 
   return (
     <View style={styles.mainListWrapper}>
-      <View>
-        <Text
-          style={{
-            fontSize: 28,
-            color: 'white',
-            fontWeight: 'bold',
-            paddingBottom: 20,
-            marginLeft: 16,
-          }}
-        >
-          {data.category_name}
-        </Text>
-      </View>
       <FlatList
-        data={data.list}
+        // data={genres}
+        data={data}
+        // data={playList}
         renderItem={renderList}
-        keyExtractor={item => String(item)} // 모바일은 id값을 부여할때 string으로 바꿔서 받아야한다
+        keyExtractor={item => String(item.id)} // 모바일은 id값을 부여할때 string으로 바꿔서 받아야한다
         horizontal={true} // horizontal 로만 작성 가능 true라 생략 가능
         showsHorizontalScrollIndicator={false}
         // showsVerticalScrollIndicator={false}
@@ -54,7 +53,6 @@ const MainList = ({ navigation, data }) => {
         //   loading ? <ActivityIndicator size="large" /> : null //네이티브에서는 무조건 ternary로 조건부
         // }
       />
-      {/* {console.log(data.list)} */}
     </View>
   );
 };

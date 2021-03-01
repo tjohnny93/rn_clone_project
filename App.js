@@ -7,16 +7,19 @@ import {
   StatusBar,
   SafeAreaView,
 } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { applyMiddleware, createStore } from 'redux';
+import { Provider, useDispatch } from 'react-redux';
+import rootReducer from './src/reducers/';
+import thunk from 'redux-thunk';
+// import { createStackNavigator } from '@react-navigation/stack';
 import * as SplashScreen from 'expo-splash-screen';
-
 import Tabs from './src/navigatior/Tabs';
-
-const Stack = createStackNavigator();
 
 SplashScreen.preventAutoHideAsync()
   .then(result => console.log(result, 'Splash Screen Loading'))
   .catch(console.warn);
+
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
 export default function App() {
   useEffect(() => {
@@ -26,11 +29,13 @@ export default function App() {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" />
-      {/* <StatusBar barStyle="default" style={styles.topBar} /> */}
-      <Tabs />
-    </SafeAreaView>
+    <Provider store={store}>
+      <SafeAreaView style={styles.container}>
+        <StatusBar barStyle="light-content" />
+        {/* <StatusBar barStyle="default" style={styles.topBar} /> */}
+        <Tabs />
+      </SafeAreaView>
+    </Provider>
   );
 }
 
