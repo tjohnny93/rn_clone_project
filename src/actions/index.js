@@ -4,6 +4,13 @@ import { spotify } from '../server';
 
 export const TOKEN = 'TOKEN';
 
+export const fetchToken = localToken => {
+  return {
+    type: TOKEN,
+    payload: localToken,
+  };
+};
+
 // export const fetchToken = async () => {
 //   await axios('https://accounts.spotify.com/api/token', {
 //     headers: {
@@ -21,10 +28,3 @@ export const TOKEN = 'TOKEN';
 //     };
 //   });
 // };
-
-export const fetchToken = localToken => {
-  return {
-    type: TOKEN,
-    payload: localToken,
-  };
-};

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 
-const MainList = ({ navigation, data, selectedCategory, localToken }) => {
+const MainList = ({ navigation, data }) => {
   const goToListDetail = (id, data) => {
     navigation.navigate('ListDetail', { id: id, data: data });
   };
@@ -11,7 +11,9 @@ const MainList = ({ navigation, data, selectedCategory, localToken }) => {
     return (
       <TouchableOpacity
         onPress={() => goToListDetail(item.id, item)}
-        style={styles.listItemWrapper}
+        style={
+          data.length - 1 === index ? styles.lastItem : styles.listItemWrapper
+        }
         activeOpacity={0.5}
       >
         <View style={styles.categoryImage}>
@@ -21,8 +23,11 @@ const MainList = ({ navigation, data, selectedCategory, localToken }) => {
             style={{ width: 168, height: 168 }}
           />
         </View>
-        <View style={{ paddingTop: 12 }}>
-          <Text style={{ color: '#959595', fontWeight: 'bold' }}>
+        <View style={{ paddingTop: 12, width: 168, height: 48 }}>
+          <Text
+            numberOfLines={2}
+            style={{ color: '#959595', fontWeight: 'bold' }}
+          >
             {/* {item.subCategory_name} */}
             {item.name}
           </Text>
@@ -64,13 +69,14 @@ const styles = StyleSheet.create({
 
   listItemWrapper: {
     flex: 1,
-    // flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     marginLeft: 16,
-    // marginTop: 110,
-    // borderTopWidth: 1,
-    // borderTopColor: 'blue',
-    // borderStyle: 'solid',
+  },
+  lastItem: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 16,
   },
 });

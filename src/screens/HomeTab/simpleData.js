@@ -9,46 +9,46 @@ export const CATEGORIES_ID = [
 
 export const PLAYLIST_DATA = {
   toplists: [
-    {
-      collaborative: false,
-      description:
-        "Aren't you the Lucky One, EXO-Ls? All the megahits by the South Korean boy band are right here!",
-      external_urls: {
-        spotify: 'https://open.spotify.com/playlist/37i9dQZF1DX5JcPJgYjGcf',
-      },
-      href: 'https://api.spotify.com/v1/playlists/37i9dQZF1DX5JcPJgYjGcf',
-      id: '37i9dQZF1DX5JcPJgYjGcf',
-      images: [
-        {
-          height: null,
-          url:
-            'https://i.scdn.co/image/ab67706f00000003422e39ec5da62058aa49258e',
-          width: null,
-        },
-      ],
-      name: 'This Is: EXO',
-      owner: {
-        display_name: 'Spotify',
-        external_urls: {
-          spotify: 'https://open.spotify.com/user/spotify',
-        },
-        href: 'https://api.spotify.com/v1/users/spotify',
-        id: 'spotify',
-        type: 'user',
-        uri: 'spotify:user:spotify',
-      },
-      primary_color: null,
-      public: null,
-      snapshot_id:
-        'MTYwMjc1NTc1OSwwMDAwMDBhOTAwMDAwMTc1MmJiMDBiY2MwMDAwMDE2ZDE1NWE1NDQ2',
-      tracks: {
-        href:
-          'https://api.spotify.com/v1/playlists/37i9dQZF1DX5JcPJgYjGcf/tracks',
-        total: 85,
-      },
-      type: 'playlist',
-      uri: 'spotify:playlist:37i9dQZF1DX5JcPJgYjGcf',
-    },
+    // {
+    //   collaborative: false,
+    //   description:
+    //     "Aren't you the Lucky One, EXO-Ls? All the megahits by the South Korean boy band are right here!",
+    //   external_urls: {
+    //     spotify: 'https://open.spotify.com/playlist/37i9dQZF1DX5JcPJgYjGcf',
+    //   },
+    //   href: 'https://api.spotify.com/v1/playlists/37i9dQZF1DX5JcPJgYjGcf',
+    //   id: '37i9dQZF1DX5JcPJgYjGcf',
+    //   images: [
+    //     {
+    //       height: null,
+    //       url:
+    //         'https://i.scdn.co/image/ab67706f00000003422e39ec5da62058aa49258e',
+    //       width: null,
+    //     },
+    //   ],
+    //   name: 'This Is: EXO',
+    //   owner: {
+    //     display_name: 'Spotify',
+    //     external_urls: {
+    //       spotify: 'https://open.spotify.com/user/spotify',
+    //     },
+    //     href: 'https://api.spotify.com/v1/users/spotify',
+    //     id: 'spotify',
+    //     type: 'user',
+    //     uri: 'spotify:user:spotify',
+    //   },
+    //   primary_color: null,
+    //   public: null,
+    //   snapshot_id:
+    //     'MTYwMjc1NTc1OSwwMDAwMDBhOTAwMDAwMTc1MmJiMDBiY2MwMDAwMDE2ZDE1NWE1NDQ2',
+    //   tracks: {
+    //     href:
+    //       'https://api.spotify.com/v1/playlists/37i9dQZF1DX5JcPJgYjGcf/tracks',
+    //     total: 85,
+    //   },
+    //   type: 'playlist',
+    //   uri: 'spotify:playlist:37i9dQZF1DX5JcPJgYjGcf',
+    // },
     {
       collaborative: false,
       description:

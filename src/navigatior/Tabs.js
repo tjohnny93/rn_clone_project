@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Audio } from 'expo-av';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -25,6 +26,13 @@ const TAB_ICON = {
 
 const MyTabBar = ({ state, descriptors, navigation }) => {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [sound, setSound] = useState(null);
+  const [duration, setDuration] = useState(null);
+  const [position, setPosition] = useState(null);
+
+  useEffect(() => {
+    currentlyPlaying();
+  }, []);
 
   const changeCurrentlyPlaying = song_url => {
     //
@@ -32,13 +40,56 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
     //
   };
 
-  const togglePlay = () => {
-    setIsPlaying(!isPlaying);
+  const song = {
+    id: 1,
+    uri:
+      'https://s3.us-west-2.amazonaws.com/secure.notion-static.com/c283aac8-9041-4a11-8693-d3313c38ccdc/yet.mp3?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210301%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210301T074116Z&X-Amz-Expires=86400&X-Amz-Signature=262aa8e7a3d9b340eff1dda0bc9a7817e591f548fe2693fc201b0fb0a40e0255&X-Amz-SignedHeaders=host',
+    imgUrl:
+      'https://music-phinf.pstatic.net/20210223_23/1614046317007ONHEP_JPEG/0-1.jpg?type=w720',
+    title: '음악이흐르고',
+    artist: '태성현',
+  };
+
+  const currentlyPlaying = async () => {
+    const { sound } = await Audio.Sound.createAsync(
+      { uri: song.uri },
+      { shouldPlay: isPlaying },
+      playerStatus
+    );
+    setSound(sound);
+  };
+
+  const playController = async () => {
+    if (!sound) {
+      //sound가 없으면 그냥 함수호출안하고
+      return;
+    }
+    isPlaying ? await sound.pauseAsync() : await sound.playAsync();
+  };
+
+  const playerStatus = status => {
+    setIsPlaying(status.isPlaying);
+    setDuration(status.durationMillis);
+    setPosition(status.positionMillis);
+  };
+
+  const getProgress = () => {
+    if (sound === null || duration === null || position === null) return 0;
+    return Math.floor((position / duration) * 100);
   };
 
   return (
     <View style={styles.container}>
-      <View style={{ backgroundColor: '#505050', height: 4 }}></View>
+      <View style={styles.statusContainer}>
+        <View
+          style={{
+            backgroundColor: '#1DB954',
+            height: 8,
+            width: `${getProgress()}%`,
+          }}
+          // style={{ backgroundColor: 'green', height: 30, width: '30%' }}
+        />
+      </View>
       <View style={styles.playerContainer}>
         <View style={{ flexDirection: 'row' }}>
           <TouchableOpacity>
@@ -70,7 +121,7 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
             <Icon name="ios-bluetooth" size={28} color="white" />
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => togglePlay()}
+            onPress={() => playController()}
             style={{ paddingLeft: 28 }}
           >
             <Icon name={PLAY_ICON[isPlaying]} size={36} color="white" />
@@ -174,6 +225,12 @@ const styles = StyleSheet.create({
   container: {
     // marginBottom: 12,
     // paddingBottom: 38,
+  },
+  statusContainer: {
+    backgroundColor: '#505050',
+    height: 4,
+    // width: { getProgress },
+    // width: '100%',
   },
   playerContainer: {
     flexDirection: 'row',
