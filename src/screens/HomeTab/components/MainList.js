@@ -12,23 +12,23 @@ const MainList = ({ navigation, data }) => {
       <TouchableOpacity
         onPress={() => goToListDetail(item.id, item)}
         style={
-          data.length - 1 === index ? styles.lastItem : styles.listItemWrapper
+          data.length - 1 === index
+            ? [styles.listItemWrapper, { marginRight: 16 }]
+            : styles.listItemWrapper
         }
         activeOpacity={0.5}
       >
         <View style={styles.categoryImage}>
           <Image
-            // source={{ uri: item.icons[0].url }}
             source={{ uri: item.images[0].url }}
             style={{ width: 168, height: 168 }}
           />
         </View>
         <View style={{ paddingTop: 12, width: 168, height: 48 }}>
           <Text
-            numberOfLines={2}
-            style={{ color: '#959595', fontWeight: 'bold' }}
+            numberOfLines={1}
+            style={{ color: '#959595', fontWeight: 'bold', fontSize: 16 }}
           >
-            {/* {item.subCategory_name} */}
             {item.name}
           </Text>
         </View>

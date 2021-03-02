@@ -25,7 +25,13 @@ export default function HomeRoot({ navigation }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    axios('https://accounts.spotify.com/api/token', {
+    getData();
+    // getCategroy();
+    setPlayLists(PLAYLIST_DATA);
+  }, []);
+
+  const getData = async () => {
+    await axios('https://accounts.spotify.com/api/token', {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         Authorization:
@@ -42,7 +48,7 @@ export default function HomeRoot({ navigation }) {
       .catch(err => {
         console.log('event', err);
       });
-    axios('https://api.spotify.com/v1/browse/categories?locale=sv_US', {
+    await axios('https://api.spotify.com/v1/browse/categories?locale=sv_US', {
       method: 'GET',
       headers: {
         Authorization: 'Bearer ' + localToken,
@@ -50,9 +56,9 @@ export default function HomeRoot({ navigation }) {
     }).then(res => {
       setCategories(res.data.categories.items.slice(0, 6));
     });
+  };
 
-    setPlayLists(PLAYLIST_DATA);
-  }, []);
+  // const getCategroy = async () => {};
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>

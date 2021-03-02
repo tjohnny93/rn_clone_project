@@ -5,6 +5,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationActions } from 'react-navigation';
+import { useDispatch, useSelector } from 'react-redux';
+import { setNextMusic } from '../actions/currentMusic';
 import HomeStack from './HomeStack';
 import HomeRoot from '../screens/HomeTab/HomeRoot';
 import SearchStack from './SearchStack';
@@ -15,6 +17,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 const Tab = createBottomTabNavigator();
 const PLAY_ICON = {
   false: 'ios-play',
+  undefined: 'ios-play',
   true: 'pause',
 };
 const TAB_ICON = {
@@ -29,10 +32,14 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
   const [sound, setSound] = useState(null);
   const [duration, setDuration] = useState(null);
   const [position, setPosition] = useState(null);
+  const [isFinished, setIsFinished] = useState(false);
+  const currentMusic = useSelector(state => state.setMusic.currentMusic);
+  const currentPlayList = useSelector(state => state.setMusic.playList);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     currentlyPlaying();
-  }, []);
+  }, [currentMusic]);
 
   const changeCurrentlyPlaying = song_url => {
     //
@@ -40,19 +47,17 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
     //
   };
 
-  const song = {
-    id: 1,
-    uri:
-      'https://s3.us-west-2.amazonaws.com/secure.notion-static.com/c283aac8-9041-4a11-8693-d3313c38ccdc/yet.mp3?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210301%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210301T074116Z&X-Amz-Expires=86400&X-Amz-Signature=262aa8e7a3d9b340eff1dda0bc9a7817e591f548fe2693fc201b0fb0a40e0255&X-Amz-SignedHeaders=host',
-    imgUrl:
-      'https://music-phinf.pstatic.net/20210223_23/1614046317007ONHEP_JPEG/0-1.jpg?type=w720',
-    title: '음악이흐르고',
-    artist: '태성현',
+  const playerStatus = status => {
+    setIsPlaying(status.isPlaying);
+    setDuration(status.durationMillis);
+    setPosition(status.positionMillis);
+    setIsFinished(status.didJustFinish);
   };
 
   const currentlyPlaying = async () => {
     const { sound } = await Audio.Sound.createAsync(
-      { uri: song.uri },
+      // { uri: song.uri },
+      { uri: currentMusic.track.preview_url },
       { shouldPlay: isPlaying },
       playerStatus
     );
@@ -65,12 +70,7 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
       return;
     }
     isPlaying ? await sound.pauseAsync() : await sound.playAsync();
-  };
-
-  const playerStatus = status => {
-    setIsPlaying(status.isPlaying);
-    setDuration(status.durationMillis);
-    setPosition(status.positionMillis);
+    isFinished ? dispatch(setNextMusic()) : null;
   };
 
   const getProgress = () => {
@@ -87,7 +87,6 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
             height: 8,
             width: `${getProgress()}%`,
           }}
-          // style={{ backgroundColor: 'green', height: 30, width: '30%' }}
         />
       </View>
       <View style={styles.playerContainer}>
@@ -96,8 +95,7 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
             <Image
               style={{ width: 76, height: 76 }}
               source={{
-                uri:
-                  'https://image.bugsm.co.kr/album/images/500/3917/391751.jpg',
+                uri: currentMusic.track.album.images[1].url,
               }}
             />
           </TouchableOpacity>
@@ -109,10 +107,10 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
             }}
           >
             <Text style={{ color: 'white', fontSize: 20, paddingBottom: 4 }}>
-              자우림
+              {currentMusic ? currentMusic.track.name : '노래를 선택해주세요.'}
             </Text>
             <Text style={{ color: '#909090', fontSize: 16 }}>
-              스물다섯, 스물하나
+              {currentMusic ? currentMusic.track.artists[0].name : ''}
             </Text>
           </TouchableOpacity>
         </View>
@@ -125,6 +123,7 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
             style={{ paddingLeft: 28 }}
           >
             <Icon name={PLAY_ICON[isPlaying]} size={36} color="white" />
+            {/* <Icon name={PLAY_ICON[false]} size={36} color="white" /> */}
           </TouchableOpacity>
         </View>
       </View>
@@ -222,15 +221,10 @@ export default function Tabs() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    // marginBottom: 12,
-    // paddingBottom: 38,
-  },
+  container: {},
   statusContainer: {
     backgroundColor: '#505050',
     height: 4,
-    // width: { getProgress },
-    // width: '100%',
   },
   playerContainer: {
     flexDirection: 'row',

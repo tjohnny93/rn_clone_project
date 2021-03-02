@@ -1,6 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  setCurrentMusic,
+  setCurrentPlayList,
+} from '../../actions/currentMusic';
 import {
   View,
   Text,
@@ -21,8 +25,10 @@ export default function SongList({ navigation, route }) {
   const token = useSelector(state => state.setCredential);
   const { id } = route.params;
   const [songList, setSongList] = useState([]);
+  const [fullList, setFullList] = useState([]);
   const [offset, setOffset] = useState(0);
   const [loading, setloading] = useState(false);
+  const dispatch = useDispatch();
 
   const closeModal = () => {
     navigation.goBack();
@@ -53,12 +59,18 @@ export default function SongList({ navigation, route }) {
       ...songList,
       ...result.data.items.slice(offset, offset + LIMIT),
     ]);
+    setFullList(result.data.items);
     setOffset(offset + LIMIT);
     setloading(false);
   };
 
   const onEndReached = () => {
     getTracks();
+  };
+
+  const setCurrentMusic = index => {
+    // dispatch(setCurrentMusic(song));
+    dispatch(setCurrentPlayList(fullList.slice(index)));
   };
 
   const renderTracks = ({ item, index }) => {
@@ -75,7 +87,10 @@ export default function SongList({ navigation, route }) {
           borderRadius: 8,
         }}
       >
-        <TouchableOpacity onPress={() => {}} style={styles.trackWrapper}>
+        <TouchableOpacity
+          onPress={() => setCurrentMusic(index)}
+          style={styles.trackWrapper}
+        >
           <View>
             <Image
               source={{ uri: item.track.album.images[1]?.url }}

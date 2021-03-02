@@ -51,7 +51,7 @@ export default function ListDetail({ navigation, route }) {
             style={{
               color: '#1DB954',
               fontSize: 20,
-              paddingBottom: 12,
+              paddingBottom: 20,
               fontWeight: 'bold',
             }}
             onPress={() => Linking.openURL(data.external_urls.spotify)}
@@ -60,7 +60,7 @@ export default function ListDetail({ navigation, route }) {
           </Text>
           <View style={styles.buttonWrapper}>
             <View style={{ flexDirection: 'row' }}>
-              <TouchableOpacity>
+              <TouchableOpacity style={{ marginTop: 12 }}>
                 <Icon
                   name="hearto"
                   size={32}
@@ -68,7 +68,7 @@ export default function ListDetail({ navigation, route }) {
                   style={{ paddingRight: 20 }}
                 />
               </TouchableOpacity>
-              <TouchableOpacity>
+              <TouchableOpacity style={{ marginTop: 12 }}>
                 <Icon name="ellipsis1" size={32} color="white" />
               </TouchableOpacity>
             </View>
