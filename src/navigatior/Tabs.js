@@ -6,7 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationActions } from 'react-navigation';
 import { useDispatch, useSelector } from 'react-redux';
-import { setNextMusic } from '../actions/currentMusic';
+import { setNextMusic, setStatus, togglePlay } from '../actions/currentMusic';
 import HomeStack from './HomeStack';
 import HomeRoot from '../screens/HomeTab/HomeRoot';
 import SearchStack from './SearchStack';
@@ -28,90 +28,51 @@ const TAB_ICON = {
 };
 
 const MyTabBar = ({ state, descriptors, navigation }) => {
-  const [isPlaying, setIsPlaying] = useState(false);
+  // const [isPlaying, setIsPlaying] = useState(false);
+  const isPlaying = useSelector(state => state.setMusic.isPlaying);
   const [sound, setSound] = useState(null);
   const [duration, setDuration] = useState(null);
   const [position, setPosition] = useState(null);
-  const [isFinished, setIsFinished] = useState(false);
+  // const [isFinished, setIsFinished] = useState(false);
   // const [isLooping, setIsLooping] = useState(true);
   // const currentMusic = useSelector(state => state.setMusic.currentMusic);
   const currentPlayList = useSelector(state => state.setMusic.playList);
   const currentIndex = useSelector(state => state.setMusic.currentIndex);
   const dispatch = useDispatch();
   const currentMusic = currentPlayList[currentIndex];
+  const playButton = useSelector(state => state.setMusic.currentIndex);
 
   useEffect(() => {
-    if (sound) {
-      sound.unloadAsync();
-      // setIsPlaying(true);
-      console.log('unload');
-    }
+    if (sound) sound.unloadAsync(); // unload
+
     playSound();
     console.log('currentmusic', currentMusic?.track?.name);
     console.log(currentIndex);
-
-    // if (prevCurrentMusic !== currentMusic) {
-    //   if (currentMusic['track'] && prevCurrentMusic !== undefined) {
-    //     // sound.unloadAsync();
-    //     // setIsPlaying(true);
-    //     playController();
-    //     // playSound();
-    //     // await sound.playAsync();
-    //   }
-    // }
-    // return prevCurrentMusic !== currentMusic && sound
-    //   ? sound.unloadAsync()
-    //   : undefined;
-    // return currentMusic['track']
-    //   ? () => {
-    //       console.log('Unloading Sound');
-    //       sound.unloadAsync();
-    //     }
-    //   : undefined;
   }, [currentIndex]);
 
   // useEffect(() => {
-  //   console.log('isplaying effect');
-  //   if (!isPlaying && sound) {
-  //     console.log('isplaying effect inside');
-  //     setIsPlaying(true);
-  //     sound.unloadAsync();
-  //     // dispatch(setNextMusic());
-  //   }
-  // }, [isPlaying]);
+  //   // dispatch(setStatus(!isPlaying));
+  //   playController();
+  // }, [playButton]);
 
-  // useEffect(() => {
-  //   isFinished && sound !== null
-  //     ? () => {
-  //         console.log('sound unload');
-  //         sound.unloadAsync();
-  //         setIsFinished(false);
-  //         // dispatch(setNextMusic);
-  //       }
-  //     : undefined;
-  // }, [sound]);
-
-  const playerStatus = status => {
+  const playerStatus = async status => {
     if (!status.isLoaded) {
       if (status.error) {
         console.log(`Error on expo AV: ${status.error}`);
       }
     } else {
-      setIsPlaying(status.isPlaying);
+      // setIsPlaying(status.isPlaying);
+      dispatch(setStatus(status.isPlaying));
+      // isPlaying === status.isPlaying
+      //   ? null
+      //   : dispatch(setStatus(status.isPlaying));
       setDuration(status.durationMillis);
       setPosition(status.positionMillis);
-      setIsFinished(status.didJustFinish);
-      // setIsLooping(status.isLooping);
+      // setIsFinished(status.didJustFinish);
+
       if (status.didJustFinish) {
         dispatch(setNextMusic());
-        // removeCache();
-        // playSound();
       }
-
-      //       if (isFinished) {
-      //   await sound.unloadAsync();
-      //   // dispatch(setNextMusic());
-      // }
     }
   };
 
@@ -119,13 +80,9 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
     const { sound } = await Audio.Sound.createAsync(
       { uri: currentMusic?.track?.preview_url },
       { shouldPlay: true },
-      // { isLooping: isLooping },
-
       playerStatus
     );
-    // if (isFinished) {
-    //   await sound.unloadAsync();
-    // }
+
     setSound(sound);
     // await sound.playAsync();
   };
@@ -137,6 +94,11 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
 
     isPlaying ? await sound.pauseAsync() : await sound.playAsync();
   };
+
+  // const toggleIsPlaying = () => {
+  //   dispatch(setStatus(!isPlaying));
+  //   // dispatch(togglePlay());
+  // };
 
   const getProgress = () => {
     if (sound === null || duration === null || position === null) return 0;
@@ -192,6 +154,7 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
             <Icon name="ios-bluetooth" size={28} color="white" />
           </TouchableOpacity>
           <TouchableOpacity
+            // onPress={() => playController()}
             onPress={() => playController()}
             style={{ paddingLeft: 28 }}
           >

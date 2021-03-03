@@ -10,17 +10,25 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  setCurrentPlayList,
+  setStatus,
+  togglePlay,
+} from '../../actions/currentMusic';
 import Icon from 'react-native-vector-icons/AntDesign';
 import ShuffleIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function ListDetail({ navigation, route }) {
   const token = useSelector(state => state.setCredential);
+  const isPlaying = useSelector(state => state.setMusic.isPlaying);
+  const playButton = useSelector(state => state.setMusic.playButton);
   const [tracks, setTracks] = useState([]);
   const { id, data } = route.params; // 받는곳에서 route.params로 route안의 객체 접근
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    axios(`https://api.spotify.com/v1/playlists/${data.id}/tracks?limit=10`, {
+    axios(`https://api.spotify.com/v1/playlists/${data.id}/tracks`, {
       method: 'GET',
       headers: {
         Authorization: 'Bearer ' + token,
@@ -29,9 +37,18 @@ export default function ListDetail({ navigation, route }) {
       setTracks(res.data.items);
     });
   }, [data]);
+  console.log(isPlaying);
+
+  const setCurrentMusic = index => {
+    dispatch(setCurrentPlayList(tracks, index));
+    // dispatch(setStatus(!isPlaying));
+    // dispatch(togglePlay());
+
+    // console.log(playButton);
+  };
 
   const openSongList = () => {
-    navigation.navigate('SongList', { id: data.id });
+    navigation.navigate('SongList', { id: data.id, fullList: tracks });
   };
 
   return (
@@ -72,13 +89,23 @@ export default function ListDetail({ navigation, route }) {
                 <Icon name="ellipsis1" size={32} color="white" />
               </TouchableOpacity>
             </View>
-            <TouchableOpacity>
-              <Icon
-                name="play"
-                size={72}
-                color="#1DB954"
-                style={{ position: 'relative' }}
-              />
+            <TouchableOpacity onPress={() => setCurrentMusic(0)}>
+              {isPlaying ? (
+                <Icon
+                  name="pausecircle"
+                  size={72}
+                  color="#1DB954"
+                  style={{ position: 'relative' }}
+                />
+              ) : (
+                <Icon
+                  name="play"
+                  size={72}
+                  color="#1DB954"
+                  style={{ position: 'relative' }}
+                />
+              )}
+
               <ShuffleIcon
                 name="shuffle-variant"
                 size={24}
@@ -94,7 +121,7 @@ export default function ListDetail({ navigation, route }) {
             <View>
               <Text numberOfLines={4} style={{ color: 'white', fontSize: 20 }}>
                 {tracks.length > 0
-                  ? tracks.map((song, index) => {
+                  ? tracks.slice(0, 10).map((song, index) => {
                       return (
                         <Text key={index}>
                           <Text style={{ color: 'white' }}>
@@ -108,8 +135,22 @@ export default function ListDetail({ navigation, route }) {
                       );
                     })
                   : ''}
-                더 보기
               </Text>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'flex-end',
+                }}
+              >
+                <Text
+                  style={{
+                    color: 'white',
+                    fontSize: 20,
+                  }}
+                >
+                  더 보기...
+                </Text>
+              </View>
             </View>
           </TouchableOpacity>
 

@@ -1,10 +1,13 @@
-import { NEXT_MUSIC } from '../actions/currentMusic';
+import { startDetecting } from 'react-native/Libraries/Utilities/PixelRatio';
+import { IS_PLAYING, NEXT_MUSIC, TOGGLE_PLAY } from '../actions/currentMusic';
 import { CURRENT_PLAYLIST } from '../actions/currentMusic';
 
 const initialState = {
-  currentMusic: { empty: 'placeholder' },
+  currentMusic: { id: null },
   playList: [{}],
   currentIndex: null,
+  isPlaying: false,
+  playButton: false,
 };
 
 export const setMusicReducer = (state = initialState, action) => {
@@ -12,6 +15,7 @@ export const setMusicReducer = (state = initialState, action) => {
     case CURRENT_PLAYLIST:
       return {
         ...state,
+        currentMusic: action.payload[action.index],
         playList: action.payload,
         currentIndex: action.index,
       };
@@ -19,6 +23,18 @@ export const setMusicReducer = (state = initialState, action) => {
       return {
         ...state,
         currentIndex: state.currentIndex + 1,
+        currentMusic: state.playList[state.currentIndex + 1],
+      };
+    case IS_PLAYING:
+      return {
+        ...state,
+        isPlaying: action.payload,
+      };
+    case TOGGLE_PLAY:
+      return {
+        ...state,
+        playButton: !state.playButton,
+        // isPlaying: !state.isPlaying,
       };
     default:
       return state;

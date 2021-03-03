@@ -23,9 +23,9 @@ const LIMIT = 20;
 
 export default function SongList({ navigation, route }) {
   const token = useSelector(state => state.setCredential);
-  const { id } = route.params;
+  const { id, fullList } = route.params;
   const [songList, setSongList] = useState([]);
-  const [fullList, setFullList] = useState([]);
+  // const [fullList, setFullList] = useState([]);
   const [offset, setOffset] = useState(0);
   const [loading, setloading] = useState(false);
   const dispatch = useDispatch();
@@ -38,28 +38,30 @@ export default function SongList({ navigation, route }) {
     getTracks();
   }, []);
 
-  const getTracks = async () => {
+  // const getTracks = async () => {
+  const getTracks = () => {
     if (loading) {
       return;
     }
     setloading(true);
 
-    const response = await axios(
-      `https://api.spotify.com/v1/playlists/${id}/tracks`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      }
-    );
-    const result = await response;
+    // const response = await axios(
+    //   `https://api.spotify.com/v1/playlists/${id}/tracks`,
+    //   {
+    //     method: 'GET',
+    //     headers: {
+    //       Authorization: 'Bearer ' + token,
+    //     },
+    //   }
+    // );
+    // const result = await response;
 
-    setSongList([
-      ...songList,
-      ...result.data.items.slice(offset, offset + LIMIT),
-    ]);
-    setFullList(result.data.items);
+    // setSongList([
+    //   ...songList,
+    //   ...result.data.items.slice(offset, offset + LIMIT),
+    // ]);
+    setSongList([...songList, ...fullList.slice(offset, offset + LIMIT)]);
+    // setFullList(result.data.items);
     setOffset(offset + LIMIT);
     setloading(false);
   };
