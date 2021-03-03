@@ -70,7 +70,8 @@ export default function SongList({ navigation, route }) {
 
   const setCurrentMusic = index => {
     // dispatch(setCurrentMusic(song));
-    dispatch(setCurrentPlayList(fullList.slice(index)));
+
+    dispatch(setCurrentPlayList(fullList, index));
   };
 
   const renderTracks = ({ item, index }) => {

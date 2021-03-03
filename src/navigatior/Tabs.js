@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Audio } from 'expo-av';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -33,44 +33,109 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
   const [duration, setDuration] = useState(null);
   const [position, setPosition] = useState(null);
   const [isFinished, setIsFinished] = useState(false);
-  const currentMusic = useSelector(state => state.setMusic.currentMusic);
+  // const [isLooping, setIsLooping] = useState(true);
+  // const currentMusic = useSelector(state => state.setMusic.currentMusic);
   const currentPlayList = useSelector(state => state.setMusic.playList);
+  const currentIndex = useSelector(state => state.setMusic.currentIndex);
   const dispatch = useDispatch();
+  const currentMusic = currentPlayList[currentIndex];
 
   useEffect(() => {
-    currentlyPlaying();
-  }, [currentMusic]);
+    if (sound) {
+      sound.unloadAsync();
+      // setIsPlaying(true);
+      console.log('unload');
+    }
+    playSound();
+    console.log('currentmusic', currentMusic?.track?.name);
+    console.log(currentIndex);
 
-  const changeCurrentlyPlaying = song_url => {
-    //
-    //여기서 현재 플레이되는 노래 변경
-    //
-  };
+    // if (prevCurrentMusic !== currentMusic) {
+    //   if (currentMusic['track'] && prevCurrentMusic !== undefined) {
+    //     // sound.unloadAsync();
+    //     // setIsPlaying(true);
+    //     playController();
+    //     // playSound();
+    //     // await sound.playAsync();
+    //   }
+    // }
+    // return prevCurrentMusic !== currentMusic && sound
+    //   ? sound.unloadAsync()
+    //   : undefined;
+    // return currentMusic['track']
+    //   ? () => {
+    //       console.log('Unloading Sound');
+    //       sound.unloadAsync();
+    //     }
+    //   : undefined;
+  }, [currentIndex]);
+
+  // useEffect(() => {
+  //   console.log('isplaying effect');
+  //   if (!isPlaying && sound) {
+  //     console.log('isplaying effect inside');
+  //     setIsPlaying(true);
+  //     sound.unloadAsync();
+  //     // dispatch(setNextMusic());
+  //   }
+  // }, [isPlaying]);
+
+  // useEffect(() => {
+  //   isFinished && sound !== null
+  //     ? () => {
+  //         console.log('sound unload');
+  //         sound.unloadAsync();
+  //         setIsFinished(false);
+  //         // dispatch(setNextMusic);
+  //       }
+  //     : undefined;
+  // }, [sound]);
 
   const playerStatus = status => {
-    setIsPlaying(status.isPlaying);
-    setDuration(status.durationMillis);
-    setPosition(status.positionMillis);
-    setIsFinished(status.didJustFinish);
+    if (!status.isLoaded) {
+      if (status.error) {
+        console.log(`Error on expo AV: ${status.error}`);
+      }
+    } else {
+      setIsPlaying(status.isPlaying);
+      setDuration(status.durationMillis);
+      setPosition(status.positionMillis);
+      setIsFinished(status.didJustFinish);
+      // setIsLooping(status.isLooping);
+      if (status.didJustFinish) {
+        dispatch(setNextMusic());
+        // removeCache();
+        // playSound();
+      }
+
+      //       if (isFinished) {
+      //   await sound.unloadAsync();
+      //   // dispatch(setNextMusic());
+      // }
+    }
   };
 
-  const currentlyPlaying = async () => {
+  const playSound = async () => {
     const { sound } = await Audio.Sound.createAsync(
-      // { uri: song.uri },
-      { uri: currentMusic.track.preview_url },
-      { shouldPlay: isPlaying },
+      { uri: currentMusic?.track?.preview_url },
+      { shouldPlay: true },
+      // { isLooping: isLooping },
+
       playerStatus
     );
+    // if (isFinished) {
+    //   await sound.unloadAsync();
+    // }
     setSound(sound);
+    // await sound.playAsync();
   };
 
   const playController = async () => {
     if (!sound) {
-      //sound가 없으면 그냥 함수호출안하고
       return;
     }
+
     isPlaying ? await sound.pauseAsync() : await sound.playAsync();
-    isFinished ? dispatch(setNextMusic()) : null;
   };
 
   const getProgress = () => {
@@ -95,7 +160,9 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
             <Image
               style={{ width: 76, height: 76 }}
               source={{
-                uri: currentMusic.track.album.images[1].url,
+                uri: currentMusic?.track
+                  ? currentMusic.track.album.images[1].url
+                  : null,
               }}
             />
           </TouchableOpacity>
@@ -103,14 +170,20 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
             style={{
               alignItems: 'flex-start',
               justifyContent: 'center',
-              paddingLeft: 12,
+              marginLeft: 12,
+              width: 220,
             }}
           >
-            <Text style={{ color: 'white', fontSize: 20, paddingBottom: 4 }}>
-              {currentMusic ? currentMusic.track.name : '노래를 선택해주세요.'}
+            <Text
+              numberOfLines={1}
+              style={{ color: 'white', fontSize: 20, paddingBottom: 4 }}
+            >
+              {currentMusic?.track ? currentMusic.track.name : ''}
             </Text>
-            <Text style={{ color: '#909090', fontSize: 16 }}>
-              {currentMusic ? currentMusic.track.artists[0].name : ''}
+            <Text numberOfLines={1} style={{ color: '#909090', fontSize: 16 }}>
+              {currentMusic?.track
+                ? currentMusic.track.artists[0].name
+                : '노래를 선택해주세요.'}
             </Text>
           </TouchableOpacity>
         </View>
@@ -225,9 +298,11 @@ const styles = StyleSheet.create({
   statusContainer: {
     backgroundColor: '#505050',
     height: 4,
+    width: '100%',
   },
   playerContainer: {
     flexDirection: 'row',
+    width: '100%',
     height: 76,
     backgroundColor: '#212121',
     justifyContent: 'space-between',

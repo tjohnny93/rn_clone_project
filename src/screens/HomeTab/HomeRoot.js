@@ -19,18 +19,21 @@ import { PLAYLIST_DATA } from './simpleData';
 
 export default function HomeRoot({ navigation }) {
   const token = useSelector(state => state.setCredential);
-  const [localToken, setlocalToken] = useState('');
   const [categories, setCategories] = useState([]);
   const [playLists, setPlayLists] = useState({});
+  // const [localToken, setlocalToken] = useState('');
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getData();
-    // getCategroy();
+    getToken();
     setPlayLists(PLAYLIST_DATA);
   }, []);
 
-  const getData = async () => {
+  useEffect(() => {
+    token.length !== 0 && getCategroy();
+  }, [token]);
+
+  const getToken = async () => {
     await axios('https://accounts.spotify.com/api/token', {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -42,23 +45,24 @@ export default function HomeRoot({ navigation }) {
       method: 'POST',
     })
       .then(tokenResponse => {
-        setlocalToken(tokenResponse.data.access_token);
+        // setlocalToken(tokenResponse.data.access_token);
         dispatch(fetchToken(tokenResponse.data.access_token));
       })
       .catch(err => {
         console.log('event', err);
       });
+  };
+
+  const getCategroy = async () => {
     await axios('https://api.spotify.com/v1/browse/categories?locale=sv_US', {
       method: 'GET',
       headers: {
-        Authorization: 'Bearer ' + localToken,
+        Authorization: 'Bearer ' + token,
       },
     }).then(res => {
       setCategories(res.data.categories.items.slice(0, 6));
     });
   };
-
-  // const getCategroy = async () => {};
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
