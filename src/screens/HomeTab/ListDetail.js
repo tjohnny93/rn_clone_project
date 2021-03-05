@@ -23,6 +23,7 @@ export default function ListDetail({ navigation, route }) {
   const token = useSelector(state => state.setCredential);
   const isPlaying = useSelector(state => state.setMusic.isPlaying);
   const playButton = useSelector(state => state.setMusic.playButton);
+  const [liked, setLiked] = useState(false);
   const [tracks, setTracks] = useState([]);
   const { id, data } = route.params; // 받는곳에서 route.params로 route안의 객체 접근
   const dispatch = useDispatch();
@@ -37,10 +38,10 @@ export default function ListDetail({ navigation, route }) {
       setTracks(res.data.items);
     });
   }, [data]);
-  console.log(isPlaying);
 
   const setCurrentMusic = index => {
-    dispatch(setCurrentPlayList(tracks, index));
+    dispatch(setCurrentPlayList(tracks, index, data.name));
+
     // dispatch(setStatus(!isPlaying));
     // dispatch(togglePlay());
 
@@ -48,7 +49,15 @@ export default function ListDetail({ navigation, route }) {
   };
 
   const openSongList = () => {
-    navigation.navigate('SongList', { id: data.id, fullList: tracks });
+    navigation.navigate('SongList', {
+      id: data.id,
+      fullList: tracks,
+      listTitle: data.name,
+    });
+  };
+
+  const toggleLiked = () => {
+    setLiked(!liked);
   };
 
   return (
@@ -77,9 +86,12 @@ export default function ListDetail({ navigation, route }) {
           </Text>
           <View style={styles.buttonWrapper}>
             <View style={{ flexDirection: 'row' }}>
-              <TouchableOpacity style={{ marginTop: 12 }}>
+              <TouchableOpacity
+                style={{ marginTop: 12 }}
+                onPress={() => toggleLiked()}
+              >
                 <Icon
-                  name="hearto"
+                  name={liked ? 'heart' : 'hearto'}
                   size={32}
                   color="white"
                   style={{ paddingRight: 20 }}
@@ -90,22 +102,12 @@ export default function ListDetail({ navigation, route }) {
               </TouchableOpacity>
             </View>
             <TouchableOpacity onPress={() => setCurrentMusic(0)}>
-              {isPlaying ? (
-                <Icon
-                  name="pausecircle"
-                  size={72}
-                  color="#1DB954"
-                  style={{ position: 'relative' }}
-                />
-              ) : (
-                <Icon
-                  name="play"
-                  size={72}
-                  color="#1DB954"
-                  style={{ position: 'relative' }}
-                />
-              )}
-
+              <Icon
+                name="play"
+                size={72}
+                color="#1DB954"
+                style={{ position: 'relative' }}
+              />
               <ShuffleIcon
                 name="shuffle-variant"
                 size={24}

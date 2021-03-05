@@ -6,15 +6,22 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationActions } from 'react-navigation';
 import { useDispatch, useSelector } from 'react-redux';
-import { setNextMusic, setStatus, togglePlay } from '../actions/currentMusic';
+import {
+  setBarStatus,
+  setNextMusic,
+  setStatus,
+  togglePlay,
+} from '../actions/currentMusic';
 import HomeStack from './HomeStack';
 import HomeRoot from '../screens/HomeTab/HomeRoot';
 import SearchStack from './SearchStack';
 import LibraryRoot from '../screens/LibraryTab/LibraryRoot';
 import PremiumRoot from '../screens/PremiumTab/PremiumRootTab';
+import TrackDetailModal from '../screens/HomeTab/components/TrackDetailModal';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const Tab = createBottomTabNavigator();
+
 const PLAY_ICON = {
   false: 'ios-play',
   undefined: 'ios-play',
@@ -28,32 +35,24 @@ const TAB_ICON = {
 };
 
 const MyTabBar = ({ state, descriptors, navigation }) => {
-  // const [isPlaying, setIsPlaying] = useState(false);
+  const dispatch = useDispatch();
   const isPlaying = useSelector(state => state.setMusic.isPlaying);
   const [sound, setSound] = useState(null);
   const [duration, setDuration] = useState(null);
   const [position, setPosition] = useState(null);
-  // const [isFinished, setIsFinished] = useState(false);
-  // const [isLooping, setIsLooping] = useState(true);
-  // const currentMusic = useSelector(state => state.setMusic.currentMusic);
   const currentPlayList = useSelector(state => state.setMusic.playList);
   const currentIndex = useSelector(state => state.setMusic.currentIndex);
-  const dispatch = useDispatch();
   const currentMusic = currentPlayList[currentIndex];
-  const playButton = useSelector(state => state.setMusic.currentIndex);
+  const playButton = useSelector(state => state.setMusic.playButton);
 
   useEffect(() => {
     if (sound) sound.unloadAsync(); // unload
-
     playSound();
-    console.log('currentmusic', currentMusic?.track?.name);
-    console.log(currentIndex);
   }, [currentIndex]);
 
-  // useEffect(() => {
-  //   // dispatch(setStatus(!isPlaying));
-  //   playController();
-  // }, [playButton]);
+  useEffect(() => {
+    return () => playController();
+  }, [playButton]);
 
   const playerStatus = async status => {
     if (!status.isLoaded) {
@@ -61,14 +60,9 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
         console.log(`Error on expo AV: ${status.error}`);
       }
     } else {
-      // setIsPlaying(status.isPlaying);
       dispatch(setStatus(status.isPlaying));
-      // isPlaying === status.isPlaying
-      //   ? null
-      //   : dispatch(setStatus(status.isPlaying));
       setDuration(status.durationMillis);
       setPosition(status.positionMillis);
-      // setIsFinished(status.didJustFinish);
 
       if (status.didJustFinish) {
         dispatch(setNextMusic());
@@ -84,6 +78,7 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
     );
 
     setSound(sound);
+    // getProgress();
     // await sound.playAsync();
   };
 
@@ -91,18 +86,18 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
     if (!sound) {
       return;
     }
-
     isPlaying ? await sound.pauseAsync() : await sound.playAsync();
   };
 
-  // const toggleIsPlaying = () => {
-  //   dispatch(setStatus(!isPlaying));
-  //   // dispatch(togglePlay());
-  // };
-
   const getProgress = () => {
     if (sound === null || duration === null || position === null) return 0;
-    return Math.floor((position / duration) * 100);
+    let barStatus = Math.floor((position / duration) * 100);
+    dispatch(setBarStatus(barStatus, position, duration));
+    return barStatus;
+  };
+
+  const openTrackDetailModal = () => {
+    navigation.navigate('TrackDetail');
   };
 
   return (
@@ -112,21 +107,40 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
           style={{
             backgroundColor: '#1DB954',
             height: 8,
+            // width: `${getProgress()}%`,
             width: `${getProgress()}%`,
           }}
         />
       </View>
+
       <View style={styles.playerContainer}>
         <View style={{ flexDirection: 'row' }}>
-          <TouchableOpacity>
-            <Image
-              style={{ width: 76, height: 76 }}
-              source={{
-                uri: currentMusic?.track
-                  ? currentMusic.track.album.images[1].url
-                  : null,
-              }}
-            />
+          <TouchableOpacity onPress={() => openTrackDetailModal()}>
+            {currentMusic?.track ? (
+              <Image
+                style={{ width: 76, height: 76 }}
+                source={{
+                  uri: currentMusic?.track
+                    ? currentMusic.track.album.images[1].url
+                    : null,
+                }}
+              />
+            ) : (
+              <>
+                <Icon
+                  name="musical-note-sharp"
+                  size={48}
+                  color="#1DB954"
+                  style={{ marginLeft: 32, position: 'relative' }}
+                />
+                <Icon
+                  name="play-circle"
+                  size={28}
+                  color="#606060"
+                  style={{ position: 'absolute', left: 20, top: 8 }}
+                />
+              </>
+            )}
           </TouchableOpacity>
           <TouchableOpacity
             style={{
@@ -135,12 +149,13 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
               marginLeft: 12,
               width: 220,
             }}
+            onPress={() => openTrackDetailModal()}
           >
             <Text
               numberOfLines={1}
               style={{ color: 'white', fontSize: 20, paddingBottom: 4 }}
             >
-              {currentMusic?.track ? currentMusic.track.name : ''}
+              {currentMusic?.track ? currentMusic.track.name : 'Melodify...'}
             </Text>
             <Text numberOfLines={1} style={{ color: '#909090', fontSize: 16 }}>
               {currentMusic?.track

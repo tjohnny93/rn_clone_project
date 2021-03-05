@@ -16,6 +16,7 @@ import {
   ScrollView,
   ActivityIndicator,
 } from 'react-native';
+import { BlurView } from 'expo-blur';
 import { FlatList } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Entypo';
 
@@ -23,7 +24,7 @@ const LIMIT = 20;
 
 export default function SongList({ navigation, route }) {
   const token = useSelector(state => state.setCredential);
-  const { id, fullList } = route.params;
+  const { id, fullList, listTitle } = route.params;
   const [songList, setSongList] = useState([]);
   // const [fullList, setFullList] = useState([]);
   const [offset, setOffset] = useState(0);
@@ -73,7 +74,7 @@ export default function SongList({ navigation, route }) {
   const setCurrentMusic = index => {
     // dispatch(setCurrentMusic(song));
 
-    dispatch(setCurrentPlayList(fullList, index));
+    dispatch(setCurrentPlayList(fullList, index, listTitle));
   };
 
   const renderTracks = ({ item, index }) => {
@@ -132,12 +133,30 @@ export default function SongList({ navigation, route }) {
 
   return (
     <View>
-      <View
-        style={{ height: 40, backgroundColor: 'rgba(33, 33, 33, 0.8)' }}
-      ></View>
-      {/* <Modal> */}
+      <BlurView
+        tint="dark"
+        intensity={100}
+        style={{
+          height: 40,
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Text
+          numberOfLines={1}
+          style={{
+            color: 'white',
+            fontSize: 28,
+            fontWeight: 'bold',
+          }}
+        >
+          {listTitle}
+        </Text>
+      </BlurView>
+
       <View style={styles.modalContainer}>
-        <View>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <TouchableOpacity onPress={closeModal} style={styles.closeButton}>
             <Text
               style={{
@@ -150,6 +169,7 @@ export default function SongList({ navigation, route }) {
               X
             </Text>
           </TouchableOpacity>
+          <View style={{ marginVertical: 16 }}></View>
         </View>
       </View>
       <View
@@ -183,8 +203,6 @@ export default function SongList({ navigation, route }) {
         />
         {/* ) : null} */}
       </View>
-
-      {/* </Modal> */}
     </View>
   );
 }
@@ -195,10 +213,10 @@ const styles = StyleSheet.create({
   modalContainer: {
     backgroundColor: '#151515',
     // backgroundColor: 'white',
+    borderTopEndRadius: 40,
+    borderTopLeftRadius: 40,
   },
   closeButton: {
-    width: 80,
-    // height: 40,
     marginVertical: 12,
     marginLeft: 20,
   },

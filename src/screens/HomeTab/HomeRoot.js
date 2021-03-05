@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchToken } from '../../actions/';
 import axios from 'axios';
 import base64 from 'base-64';
-import { spotify } from '../../server';
+import { spotify } from '../../config/server';
 import {
   View,
   Text,
