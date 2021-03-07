@@ -97,7 +97,7 @@ export default function SongList({ navigation, route }) {
         >
           <View>
             <Image
-              source={{ uri: item.track.album.images[1]?.url }}
+              source={{ uri: item?.track?.album.images[1]?.url }}
               style={{
                 width: 72,
                 height: 72,
@@ -115,10 +115,10 @@ export default function SongList({ navigation, route }) {
           </View>
           <View style={{ width: 240 }}>
             <Text numberOfLines={1} style={{ color: 'white', fontSize: 16 }}>
-              {item.track.name}
+              {item?.track?.name}
             </Text>
             <Text style={{ color: '#939393', fontSize: 16 }}>
-              {item.track.artists[0].name}
+              {item?.track?.artists[0].name}
             </Text>
           </View>
         </TouchableOpacity>

@@ -16,13 +16,14 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { BlurView } from 'expo-blur';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { useSelector, useDispatch } from 'react-redux';
+import { likeTrack, unLikeTrack } from '../../../actions/likedStatus';
 
 export default function TrackDetailModal({ navigation, route }) {
   const [isVisible, setIsVisible] = useState(true);
   const isPlaying = useSelector(state => state.setMusic.isPlaying);
-  const currentPlayList = useSelector(state => state.setMusic.playList);
-  const currentIndex = useSelector(state => state.setMusic.currentIndex);
-  // const currentMusic = currentPlayList[currentIndex];
+  // const currentPlayList = useSelector(state => state.setMusic.playList);
+  // const currentIndex = useSelector(state => state.setMusic.currentIndex);
+  const likedTrack = useSelector(state => state.setLiked.likedTrack);
   const currentMusic = useSelector(state => state.setMusic.currentMusic);
   const listTitle = useSelector(state => state.setMusic.listTitle);
   const barStatus = useSelector(state => state.setMusic.barStatus);
@@ -52,6 +53,12 @@ export default function TrackDetailModal({ navigation, route }) {
 
   const skipTrack = option => {
     option === 'next' ? dispatch(setNextMusic()) : dispatch(setPrevMusic());
+  };
+
+  const addToLiked = id => {
+    likedTrack.includes(id)
+      ? dispatch(unLikeTrack(id))
+      : dispatch(likeTrack(id));
   };
 
   return (
@@ -112,8 +119,18 @@ export default function TrackDetailModal({ navigation, route }) {
               <Text style={{ color: 'white' }}>-{getTime(durationMillis)}</Text>
             </View>
             <View style={styles.controlWrapper}>
-              <TouchableOpacity>
-                <Icon name="hearto" size={28} color="white" />
+              <TouchableOpacity
+                onPress={() => addToLiked(currentMusic?.track?.album?.id)}
+              >
+                <Icon
+                  name={
+                    likedTrack.includes(currentMusic?.track?.album?.id)
+                      ? 'heart'
+                      : 'hearto'
+                  }
+                  size={28}
+                  color="white"
+                />
               </TouchableOpacity>
               <TouchableOpacity onPress={() => skipTrack('prev')}>
                 <Icon name="stepbackward" size={36} color="white" />

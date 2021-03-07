@@ -15,6 +15,8 @@ import thunk from 'redux-thunk';
 import * as SplashScreen from 'expo-splash-screen';
 import Tabs from './src/navigatior/Tabs';
 
+console.disableYellowBox = true; // disables the yellow warning signs overall
+
 SplashScreen.preventAutoHideAsync()
   .then(result => console.log(result, 'Splash Screen Loading'))
   .catch(console.warn);

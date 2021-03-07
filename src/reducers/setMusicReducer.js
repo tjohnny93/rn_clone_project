@@ -1,12 +1,9 @@
-import { startDetecting } from 'react-native/Libraries/Utilities/PixelRatio';
 import {
   IS_PLAYING,
   NEXT_MUSIC,
   TOGGLE_PLAY,
   SET_BAR_STATUS,
   PREV_MUSIC,
-  ADD_LIKED,
-  REMOVE_LIKED,
 } from '../actions/currentMusic';
 import { CURRENT_PLAYLIST } from '../actions/currentMusic';
 
@@ -20,7 +17,6 @@ const initialState = {
   playButton: false,
   positionMillis: 0,
   durationMillis: 0,
-  likedList: [],
 };
 
 export const setMusicReducer = (state = initialState, action) => {
@@ -62,16 +58,6 @@ export const setMusicReducer = (state = initialState, action) => {
         barStatus: action.payload.barStatus,
         positionMillis: action.payload.positionMillis,
         durationMillis: action.payload.durationMillis,
-      };
-    case ADD_LIKED:
-      return {
-        ...state,
-        likedList: [...state.likedList, action.payload],
-      };
-    case REMOVE_LIKED:
-      return {
-        ...state,
-        likedList: state.likedList.filter(ele => ele !== action.payload),
       };
     default:
       return state;

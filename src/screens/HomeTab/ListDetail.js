@@ -16,14 +16,14 @@ import {
   setStatus,
   togglePlay,
 } from '../../actions/currentMusic';
+import { likePlayList, unLikePlayList } from '../../actions/likedStatus';
 import Icon from 'react-native-vector-icons/AntDesign';
 import ShuffleIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function ListDetail({ navigation, route }) {
   const token = useSelector(state => state.setCredential);
-  const isPlaying = useSelector(state => state.setMusic.isPlaying);
-  const playButton = useSelector(state => state.setMusic.playButton);
-  const [liked, setLiked] = useState(false);
+  const likedPlayList = useSelector(state => state.setLiked.likedPlayList);
+  // const [liked, setLiked] = useState(false);
   const [tracks, setTracks] = useState([]);
   const { id, data } = route.params; // 받는곳에서 route.params로 route안의 객체 접근
   const dispatch = useDispatch();
@@ -39,13 +39,9 @@ export default function ListDetail({ navigation, route }) {
     });
   }, [data]);
 
-  const setCurrentMusic = index => {
+  const setCurrentMusic = max => {
+    let index = Math.floor(Math.random() * Math.floor(max));
     dispatch(setCurrentPlayList(tracks, index, data.name));
-
-    // dispatch(setStatus(!isPlaying));
-    // dispatch(togglePlay());
-
-    // console.log(playButton);
   };
 
   const openSongList = () => {
@@ -56,8 +52,10 @@ export default function ListDetail({ navigation, route }) {
     });
   };
 
-  const toggleLiked = () => {
-    setLiked(!liked);
+  const addToLiked = id => {
+    likedPlayList.includes(id)
+      ? dispatch(unLikePlayList(id))
+      : dispatch(likePlayList(id));
   };
 
   return (
@@ -88,10 +86,11 @@ export default function ListDetail({ navigation, route }) {
             <View style={{ flexDirection: 'row' }}>
               <TouchableOpacity
                 style={{ marginTop: 12 }}
-                onPress={() => toggleLiked()}
+                onPress={() => addToLiked(data.id)}
               >
                 <Icon
-                  name={liked ? 'heart' : 'hearto'}
+                  // name={liked ? 'heart' : 'hearto'}
+                  name={likedPlayList.includes(data.id) ? 'heart' : 'hearto'}
                   size={32}
                   color="white"
                   style={{ paddingRight: 20 }}
@@ -101,7 +100,7 @@ export default function ListDetail({ navigation, route }) {
                 <Icon name="ellipsis1" size={32} color="white" />
               </TouchableOpacity>
             </View>
-            <TouchableOpacity onPress={() => setCurrentMusic(0)}>
+            <TouchableOpacity onPress={() => setCurrentMusic(tracks.length)}>
               <Icon
                 name="play"
                 size={72}
@@ -127,11 +126,11 @@ export default function ListDetail({ navigation, route }) {
                       return (
                         <Text key={index}>
                           <Text style={{ color: 'white' }}>
-                            {song.track.artists[0].name}
+                            {song?.track?.artists[0].name}
                             {'  '}
                           </Text>
                           <Text style={{ color: '#939393' }}>
-                            {song.track.name} &#8226;{' '}
+                            {song?.track?.name} &#8226;{' '}
                           </Text>
                         </Text>
                       );
