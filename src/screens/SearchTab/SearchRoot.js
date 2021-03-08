@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 export default function SearchRoot({ navigation }) {
   return (
     <View>
-      <Text>SearchTab</Text>
+      <Text>SearchTabasdfasdfasdfasdfasdf</Text>
     </View>
   );
 }

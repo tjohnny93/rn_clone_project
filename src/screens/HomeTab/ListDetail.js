@@ -52,10 +52,10 @@ export default function ListDetail({ navigation, route }) {
     });
   };
 
-  const addToLiked = id => {
-    likedPlayList.includes(id)
-      ? dispatch(unLikePlayList(id))
-      : dispatch(likePlayList(id));
+  const addToLiked = data => {
+    likedPlayList.includes(data)
+      ? dispatch(unLikePlayList(data))
+      : dispatch(likePlayList(data));
   };
 
   return (
@@ -86,11 +86,11 @@ export default function ListDetail({ navigation, route }) {
             <View style={{ flexDirection: 'row' }}>
               <TouchableOpacity
                 style={{ marginTop: 12 }}
-                onPress={() => addToLiked(data.id)}
+                onPress={() => addToLiked(data)}
               >
                 <Icon
                   // name={liked ? 'heart' : 'hearto'}
-                  name={likedPlayList.includes(data.id) ? 'heart' : 'hearto'}
+                  name={likedPlayList.includes(data) ? 'heart' : 'hearto'}
                   size={32}
                   color="white"
                   style={{ paddingRight: 20 }}

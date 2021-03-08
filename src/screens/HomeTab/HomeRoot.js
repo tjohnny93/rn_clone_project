@@ -79,7 +79,7 @@ export default function HomeRoot({ navigation }) {
                   marginHorizontal: 16,
                 }}
               >
-                {category.name}
+                {category.name === 'Top Lists' ? 'K-POP' : category.name}
               </Text>
               <Image
                 source={{ uri: category.icons[0].url }}

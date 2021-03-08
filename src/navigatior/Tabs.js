@@ -15,7 +15,7 @@ import {
 import HomeStack from './HomeStack';
 import HomeRoot from '../screens/HomeTab/HomeRoot';
 import SearchStack from './SearchStack';
-import LibraryRoot from '../screens/LibraryTab/LibraryRoot';
+import LibraryTopTab from './LibraryTopTab';
 import PremiumRoot from '../screens/PremiumTab/PremiumRootTab';
 import TrackDetailModal from '../screens/HomeTab/components/TrackDetailModal';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -263,7 +263,7 @@ export default function Tabs() {
             })}
           />
           <Tab.Screen name="Search" component={SearchStack} />
-          <Tab.Screen name="Library" component={LibraryRoot} />
+          <Tab.Screen name="Library" component={LibraryTopTab} />
           <Tab.Screen name="Premium" component={PremiumRoot} />
         </Tab.Navigator>
       </NavigationContainer>
