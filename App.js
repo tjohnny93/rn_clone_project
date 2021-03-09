@@ -1,24 +1,52 @@
-import React from 'react';
-import { ScrollView, StyleSheet, Text, View, StatusBar } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
-
+import React, { useEffect } from 'react';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  StatusBar,
+  SafeAreaView,
+} from 'react-native';
+import { applyMiddleware, createStore } from 'redux';
+import { Provider, useDispatch } from 'react-redux';
+import rootReducer from './src/reducers/';
+import thunk from 'redux-thunk';
+// import { createStackNavigator } from '@react-navigation/stack';
+import * as SplashScreen from 'expo-splash-screen';
 import Tabs from './src/navigatior/Tabs';
 
-const Stack = createStackNavigator();
+console.disableYellowBox = true; // disables the yellow warning signs overall
+
+SplashScreen.preventAutoHideAsync()
+  .then(result => console.log(result, 'Splash Screen Loading'))
+  .catch(console.warn);
+
+export const store = createStore(rootReducer, applyMiddleware(thunk));
 
 export default function App() {
+  useEffect(() => {
+    setTimeout(async () => {
+      await SplashScreen.hideAsync();
+    }, 1500);
+  }, []);
+
   return (
-    <>
-      <Tabs />
-    </>
+    <Provider store={store}>
+      <SafeAreaView style={styles.container}>
+        <StatusBar barStyle="light-content" />
+        {/* <StatusBar barStyle="default" style={styles.topBar} /> */}
+        <Tabs />
+      </SafeAreaView>
+    </Provider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: 'rgba(33, 33, 33, 1)',
+  },
+  topBar: {
+    // backgroundColor: 'rgba(33, 33, 33, 0.5)',
   },
 });
