@@ -40,8 +40,8 @@ export default function ListDetail({ navigation, route }) {
   }, [data]);
 
   const setCurrentMusic = max => {
-    let index = Math.floor(Math.random() * Math.floor(max));
-    dispatch(setCurrentPlayList(tracks, index, data.name));
+    let randomIndex = Math.floor(Math.random() * Math.floor(max));
+    dispatch(setCurrentPlayList(tracks, randomIndex, data.name));
   };
 
   const openSongList = () => {

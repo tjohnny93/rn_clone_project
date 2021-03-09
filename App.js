@@ -21,7 +21,7 @@ SplashScreen.preventAutoHideAsync()
   .then(result => console.log(result, 'Splash Screen Loading'))
   .catch(console.warn);
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+export const store = createStore(rootReducer, applyMiddleware(thunk));
 
 export default function App() {
   useEffect(() => {

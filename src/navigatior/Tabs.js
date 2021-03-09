@@ -51,7 +51,7 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
   }, [currentIndex]);
 
   useEffect(() => {
-    return () => playController();
+    playController();
   }, [playButton]);
 
   const playerStatus = async status => {

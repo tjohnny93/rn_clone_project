@@ -55,10 +55,12 @@ export default function TrackDetailModal({ navigation, route }) {
     option === 'next' ? dispatch(setNextMusic()) : dispatch(setPrevMusic());
   };
 
-  const addToLiked = id => {
-    likedTrack.includes(id)
-      ? dispatch(unLikeTrack(id))
-      : dispatch(likeTrack(id));
+  const addToLiked = track => {
+    likedTrack.includes(track)
+      ? dispatch(unLikeTrack(track))
+      : dispatch(likeTrack(track));
+
+    console.log(likedTrack);
   };
 
   return (
@@ -119,15 +121,9 @@ export default function TrackDetailModal({ navigation, route }) {
               <Text style={{ color: 'white' }}>-{getTime(durationMillis)}</Text>
             </View>
             <View style={styles.controlWrapper}>
-              <TouchableOpacity
-                onPress={() => addToLiked(currentMusic?.track?.album?.id)}
-              >
+              <TouchableOpacity onPress={() => addToLiked(currentMusic)}>
                 <Icon
-                  name={
-                    likedTrack.includes(currentMusic?.track?.album?.id)
-                      ? 'heart'
-                      : 'hearto'
-                  }
+                  name={likedTrack.includes(currentMusic) ? 'heart' : 'hearto'}
                   size={28}
                   color="white"
                 />
