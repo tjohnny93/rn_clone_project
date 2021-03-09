@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/AntDesign';
-const ArtistList = ({ data }) => {
-  const renderArtists = ({ item, index }) => {
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+const TrackList = ({ data }) => {
+  const renderTracks = ({ item, index }) => {
+    console.log(item);
     return (
       <TouchableOpacity
         style={{
@@ -18,27 +19,29 @@ const ArtistList = ({ data }) => {
       >
         <View style={{ flexDirection: 'row' }}>
           <Image
-            source={{ uri: item?.images[1]?.url }}
+            source={{ uri: item?.album.images[0].url }}
             style={{ width: 48, height: 48, marginRight: 12, borderRadius: 4 }}
           />
           <View style={{ justifyContent: 'flex-start', width: 180 }}>
             <Text numberOfLines={1} style={{ color: 'white', fontSize: 20 }}>
               {item?.name}
             </Text>
-            <Text style={{ color: '#939393', fontSize: 20 }}>{item?.type}</Text>
+            <Text style={{ color: '#939393', fontSize: 20 }}>
+              Single {item?.type}
+            </Text>
           </View>
         </View>
         <View style={{}}>
-          <Text style={{ color: 'white', position: 'relative' }}>
+          {/* <Text style={{ color: 'white', position: 'relative' }}>
             {item?.followers?.total
               .toString()
               .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-          </Text>
+          </Text> */}
           <Icon
-            name="heart"
-            size={12}
-            color="#1DB954"
-            style={{ position: 'absolute', left: -16, top: 3 }}
+            name="music-box-multiple"
+            size={32}
+            color="white"
+            style={{ paddingRight: 28 }}
           />
         </View>
       </TouchableOpacity>
@@ -54,7 +57,7 @@ const ArtistList = ({ data }) => {
     >
       <FlatList
         data={data}
-        renderItem={renderArtists}
+        renderItem={renderTracks}
         keyExtractor={item => String(item.id)}
         bounces={false}
       />
@@ -63,4 +66,4 @@ const ArtistList = ({ data }) => {
   );
 };
 
-export default ArtistList;
+export default TrackList;

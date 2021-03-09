@@ -1,9 +1,11 @@
 import axios from 'axios';
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TextInput, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { useSelector } from 'react-redux';
 import ArtistList from './components/ArtistList';
+import AlbumList from './components/AlbumList';
+import TrackList from './components/TrackList';
 import { useRoute } from '@react-navigation/native';
 
 const SEARCH_API = `https://api.spotify.com/v1/search?query=`;
@@ -18,9 +20,7 @@ export default function SearchRoot({ navigation }) {
   const textInputRef = useRef(false);
   const route = useRoute();
   const focused = navigation.isFocused();
-  console.log(navigation);
 
-  // console.log(artists);
   useEffect(() => {
     const clear = navigation.addListener('focus', () => {
       setInputValue('');
@@ -30,6 +30,7 @@ export default function SearchRoot({ navigation }) {
     });
     return clear;
   }, [navigation]);
+  // console.log(tracks);
 
   const modifyInput = val => {
     let modifiedVal = val
@@ -42,16 +43,19 @@ export default function SearchRoot({ navigation }) {
   };
 
   const getData = async (val, type) => {
-    await axios(SEARCH_API + `${val}&offset=0&limit=5&type=${type}`, {
-      method: 'GET',
-      headers: { Authorization: 'Bearer ' + token },
-    })
+    await axios(
+      SEARCH_API + `${val}&offset=0&limit=10&type=${type}`,
+      // `name:${val}&type=album,track,artist&offset=0&limit=5&type=${type}`,
+      {
+        method: 'GET',
+        headers: { Authorization: 'Bearer ' + token },
+      }
+    )
       .then(res => {
         switch (type) {
           case 'artist':
             setArtists(res.data.artists.items);
           // console.log(artists);
-
           case 'track':
             setTracks(res.data.tracks.items);
           // console.log(tracks);
@@ -72,10 +76,11 @@ export default function SearchRoot({ navigation }) {
     DATA_TYPE.map(type => {
       getData(val, type);
     });
+    // /getData(val, DATA_TYPE[0]);
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={{ marginTop: 20, marginLeft: 24 }}>
         {textInputRef.current.isFocused ? (
           <></>
@@ -111,22 +116,40 @@ export default function SearchRoot({ navigation }) {
             marginBottom: 12,
           }}
         >
-          <Text
-            style={{
-              fontSize: 30,
-              fontWeight: 'bold',
-              color: 'white',
-              marginBottom: 12,
-            }}
-          >
-            아티스트 검색 결과
-          </Text>
+          <Text style={styles.searchTitle}>아티스트 검색 결과</Text>
           <ArtistList data={artists} />
         </View>
       ) : (
         <></>
       )}
-    </View>
+      {albums.length > 0 ? (
+        <View
+          style={{
+            marginHorizontal: 24,
+            marginBottom: 12,
+          }}
+        >
+          <Text style={styles.searchTitle}>앨범 검색 결과</Text>
+          <AlbumList data={albums} />
+          {/* {console.log(albums)} */}
+        </View>
+      ) : (
+        <></>
+      )}
+      {tracks.length > 0 ? (
+        <View
+          style={{
+            marginHorizontal: 24,
+            marginBottom: 12,
+          }}
+        >
+          <Text style={styles.searchTitle}>트랙 검색 결과</Text>
+          <TrackList data={tracks} />
+        </View>
+      ) : (
+        <></>
+      )}
+    </ScrollView>
   );
 }
 
@@ -141,7 +164,7 @@ const styles = StyleSheet.create({
     height: 52,
     backgroundColor: 'white',
     margin: 24,
-    borderRadius: 8,
+    borderRadius: 16,
     paddingHorizontal: 10,
     paddingLeft: 52,
     justifyContent: 'center',
@@ -150,5 +173,11 @@ const styles = StyleSheet.create({
   searchBar: {
     // height: 30,
     // fontSize: 30,
+  },
+  searchTitle: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: 'white',
+    marginBottom: 16,
   },
 });

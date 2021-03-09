@@ -155,13 +155,7 @@ export default function ListDetail({ navigation, route }) {
             </View>
           </TouchableOpacity>
 
-          <Text style={{ color: 'white' }}>ListDetailpage</Text>
-          <Text style={{ color: 'white' }}>
-            동적라우팅 id 이거 사용해서 카테고리 내부 데이터 잘라오기?: {id}
-          </Text>
-          <TouchableOpacity onPress={openSongList}>
-            <Text style={{ color: 'white' }}>노래리스트 버튼</Text>
-          </TouchableOpacity>
+          {/* <Text style={{ color: 'white' }}>ListDetailpage</Text> */}
         </View>
       </ScrollView>
     </SafeAreaView>
