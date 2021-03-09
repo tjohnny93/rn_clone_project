@@ -5,8 +5,8 @@ import { useSelector } from 'react-redux';
 
 export default function MyArtist({ navigation }) {
   const likedTrack = [];
-  const goToHomeTab = () => {
-    navigation.navigate('Home');
+  const goToSearchTab = () => {
+    navigation.navigate('Search');
   };
 
   const renderPlayList = ({ item, index }) => {
@@ -49,7 +49,7 @@ export default function MyArtist({ navigation }) {
         </Text>
       </View>
       <TouchableOpacity
-        onPress={() => goToHomeTab()}
+        onPress={() => goToSearchTab()}
         style={{
           marginTop: 40,
           width: 200,

@@ -4,16 +4,7 @@ import { fetchToken } from '../../actions/';
 import axios from 'axios';
 import base64 from 'base-64';
 import { spotify } from '../../config/server';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  SafeAreaView,
-  TouchableOpacity,
-  FlatList,
-  Image,
-} from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
 import MainList from './components/MainList';
 import { PLAYLIST_DATA } from './simpleData';
 
@@ -21,7 +12,7 @@ export default function HomeRoot({ navigation }) {
   const token = useSelector(state => state.setCredential);
   const [categories, setCategories] = useState([]);
   const [playLists, setPlayLists] = useState({});
-  // const [localToken, setlocalToken] = useState('');
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -62,6 +53,19 @@ export default function HomeRoot({ navigation }) {
     }).then(res => {
       setCategories(res.data.categories.items.slice(0, 6));
     });
+
+    // spotify api 업데이트 대비용
+    // await axios(
+    //   'https://api.spotify.com/v1/browse/categories/equal/playlists?locale=sv_US',
+    //   {
+    //     method: 'GET',
+    //     headers: {
+    //       Authorization: 'Bearer ' + token,
+    //     },
+    //   }
+    // ).then(res => {
+    //   console.log(res.data.playlists.items);
+    // });
   };
 
   return (

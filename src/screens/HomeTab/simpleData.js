@@ -648,6 +648,287 @@ export const PLAYLIST_DATA = {
       uri: 'spotify:playlist:37i9dQZF1DWUa8ZRTfalHk',
     },
   ],
+  equal: [
+    {
+      collaborative: false,
+      description: 'Kick back with the queens of pop.',
+      external_urls: {
+        spotify: 'https://open.spotify.com/playlist/37i9dQZF1DX3WvGXE8FqYX',
+      },
+      href: 'https://api.spotify.com/v1/playlists/37i9dQZF1DX3WvGXE8FqYX',
+      id: '37i9dQZF1DX3WvGXE8FqYX',
+      images: [
+        {
+          height: null,
+          url:
+            'https://i.scdn.co/image/ab67706f0000000361dceefe400614407dd0177f',
+          width: null,
+        },
+      ],
+      name: 'Women of Pop',
+      owner: {
+        display_name: 'Spotify',
+        external_urls: {
+          spotify: 'https://open.spotify.com/user/spotify',
+        },
+        href: 'https://api.spotify.com/v1/users/spotify',
+        id: 'spotify',
+        type: 'user',
+        uri: 'spotify:user:spotify',
+      },
+      primary_color: null,
+      public: null,
+      snapshot_id:
+        'MTYxNTI2MTQ4MywwMDAwMDAwMGQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0Mjdl',
+      tracks: {
+        href:
+          'https://api.spotify.com/v1/playlists/37i9dQZF1DX3WvGXE8FqYX/tracks',
+        total: 70,
+      },
+      type: 'playlist',
+      uri: 'spotify:playlist:37i9dQZF1DX3WvGXE8FqYX',
+    },
+    {
+      collaborative: false,
+      description:
+        'Some of the most influential and innovative voices in hip-hop—yesterday, today, tomorrow. Cover: Saweetie & Doja Cat',
+      external_urls: {
+        spotify: 'https://open.spotify.com/playlist/37i9dQZF1DX5l9rcXWdrth',
+      },
+      href: 'https://api.spotify.com/v1/playlists/37i9dQZF1DX5l9rcXWdrth',
+      id: '37i9dQZF1DX5l9rcXWdrth',
+      images: [
+        {
+          height: null,
+          url:
+            'https://i.scdn.co/image/ab67706f00000003f5c6366d5579ba6493f6b4af',
+          width: null,
+        },
+      ],
+      name: 'Women of Hip-Hop',
+      owner: {
+        display_name: 'Spotify',
+        external_urls: {
+          spotify: 'https://open.spotify.com/user/spotify',
+        },
+        href: 'https://api.spotify.com/v1/users/spotify',
+        id: 'spotify',
+        type: 'user',
+        uri: 'spotify:user:spotify',
+      },
+      primary_color: null,
+      public: null,
+      snapshot_id:
+        'MTYxNTI2MTQ0MiwwMDAwMDAwMGQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0Mjdl',
+      tracks: {
+        href:
+          'https://api.spotify.com/v1/playlists/37i9dQZF1DX5l9rcXWdrth/tracks',
+        total: 50,
+      },
+      type: 'playlist',
+      uri: 'spotify:playlist:37i9dQZF1DX5l9rcXWdrth',
+    },
+    {
+      collaborative: false,
+      description:
+        'Some of the most mesmerizing voices and masterful musicians of indie. Cover: FKA Twigs',
+      external_urls: {
+        spotify: 'https://open.spotify.com/playlist/37i9dQZF1DX91UQmVbQYyN',
+      },
+      href: 'https://api.spotify.com/v1/playlists/37i9dQZF1DX91UQmVbQYyN',
+      id: '37i9dQZF1DX91UQmVbQYyN',
+      images: [
+        {
+          height: null,
+          url:
+            'https://i.scdn.co/image/ab67706f000000030e81ecb0f543533c07db1181',
+          width: null,
+        },
+      ],
+      name: 'Women of Indie',
+      owner: {
+        display_name: 'Spotify',
+        external_urls: {
+          spotify: 'https://open.spotify.com/user/spotify',
+        },
+        href: 'https://api.spotify.com/v1/users/spotify',
+        id: 'spotify',
+        type: 'user',
+        uri: 'spotify:user:spotify',
+      },
+      primary_color: null,
+      public: null,
+      snapshot_id:
+        'MTYxNTI2MTQ1NCwwMDAwMDAwMGQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0Mjdl',
+      tracks: {
+        href:
+          'https://api.spotify.com/v1/playlists/37i9dQZF1DX91UQmVbQYyN/tracks',
+        total: 100,
+      },
+      type: 'playlist',
+      uri: 'spotify:playlist:37i9dQZF1DX91UQmVbQYyN',
+    },
+    {
+      collaborative: false,
+      description:
+        'These women rock our worlds with their music and influence. Cover: Stevie Nicks',
+      external_urls: {
+        spotify: 'https://open.spotify.com/playlist/37i9dQZF1DXd0ZFXhY0CRF',
+      },
+      href: 'https://api.spotify.com/v1/playlists/37i9dQZF1DXd0ZFXhY0CRF',
+      id: '37i9dQZF1DXd0ZFXhY0CRF',
+      images: [
+        {
+          height: null,
+          url:
+            'https://i.scdn.co/image/ab67706f00000003ffeb46f9e764952a8df29f88',
+          width: null,
+        },
+      ],
+      name: 'Women of Rock',
+      owner: {
+        display_name: 'Spotify',
+        external_urls: {
+          spotify: 'https://open.spotify.com/user/spotify',
+        },
+        href: 'https://api.spotify.com/v1/users/spotify',
+        id: 'spotify',
+        type: 'user',
+        uri: 'spotify:user:spotify',
+      },
+      primary_color: null,
+      public: null,
+      snapshot_id:
+        'MTYxNDYyNjA2MCwwMDAwMDAzNDAwMDAwMTc3ZWYzNjc4ZWEwMDAwMDE3NGUxMDJjN2Ri',
+      tracks: {
+        href:
+          'https://api.spotify.com/v1/playlists/37i9dQZF1DXd0ZFXhY0CRF/tracks',
+        total: 100,
+      },
+      type: 'playlist',
+      uri: 'spotify:playlist:37i9dQZF1DXd0ZFXhY0CRF',
+    },
+    {
+      collaborative: false,
+      description:
+        'A musical celebration of women in R&amp;B, from its earliest acts to its newest stars. Cover: Aretha Franklin',
+      external_urls: {
+        spotify: 'https://open.spotify.com/playlist/37i9dQZF1DX1wNY9tfWQsS',
+      },
+      href: 'https://api.spotify.com/v1/playlists/37i9dQZF1DX1wNY9tfWQsS',
+      id: '37i9dQZF1DX1wNY9tfWQsS',
+      images: [
+        {
+          height: null,
+          url:
+            'https://i.scdn.co/image/ab67706f000000034f713436a6f7ac34d35eb0a2',
+          width: null,
+        },
+      ],
+      name: 'Women of R&B',
+      owner: {
+        display_name: 'Spotify',
+        external_urls: {
+          spotify: 'https://open.spotify.com/user/spotify',
+        },
+        href: 'https://api.spotify.com/v1/users/spotify',
+        id: 'spotify',
+        type: 'user',
+        uri: 'spotify:user:spotify',
+      },
+      primary_color: null,
+      public: null,
+      snapshot_id:
+        'MTYxNTI2MTQ1MCwwMDAwMDAwMGQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0Mjdl',
+      tracks: {
+        href:
+          'https://api.spotify.com/v1/playlists/37i9dQZF1DX1wNY9tfWQsS/tracks',
+        total: 50,
+      },
+      type: 'playlist',
+      uri: 'spotify:playlist:37i9dQZF1DX1wNY9tfWQsS',
+    },
+    {
+      collaborative: false,
+      description:
+        'The greatest female voices in blues today. Cover: Bettye LaVette',
+      external_urls: {
+        spotify: 'https://open.spotify.com/playlist/37i9dQZF1DX8QB9Ys2nV17',
+      },
+      href: 'https://api.spotify.com/v1/playlists/37i9dQZF1DX8QB9Ys2nV17',
+      id: '37i9dQZF1DX8QB9Ys2nV17',
+      images: [
+        {
+          height: null,
+          url:
+            'https://i.scdn.co/image/ab67706f000000035c814fadc51f2e8984047d23',
+          width: null,
+        },
+      ],
+      name: 'Women of the Blues',
+      owner: {
+        display_name: 'Spotify',
+        external_urls: {
+          spotify: 'https://open.spotify.com/user/spotify',
+        },
+        href: 'https://api.spotify.com/v1/users/spotify',
+        id: 'spotify',
+        type: 'user',
+        uri: 'spotify:user:spotify',
+      },
+      primary_color: null,
+      public: null,
+      snapshot_id:
+        'MTYxNTI2MTQ4NywwMDAwMDAwMGQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0Mjdl',
+      tracks: {
+        href:
+          'https://api.spotify.com/v1/playlists/37i9dQZF1DX8QB9Ys2nV17/tracks',
+        total: 55,
+      },
+      type: 'playlist',
+      uri: 'spotify:playlist:37i9dQZF1DX8QB9Ys2nV17',
+    },
+    {
+      collaborative: false,
+      description:
+        'From sultry vocalists, sexy divas to cutesy girl-groups, the women of K-Pop are a formidable force to be reckoned with.',
+      external_urls: {
+        spotify: 'https://open.spotify.com/playlist/37i9dQZF1DX6Cy4Vr7Hu2y',
+      },
+      href: 'https://api.spotify.com/v1/playlists/37i9dQZF1DX6Cy4Vr7Hu2y',
+      id: '37i9dQZF1DX6Cy4Vr7Hu2y',
+      images: [
+        {
+          height: null,
+          url:
+            'https://i.scdn.co/image/ab67706f00000003a280f8dc574def2268332d50',
+          width: null,
+        },
+      ],
+      name: 'Women of K-Pop',
+      owner: {
+        display_name: 'Spotify',
+        external_urls: {
+          spotify: 'https://open.spotify.com/user/spotify',
+        },
+        href: 'https://api.spotify.com/v1/users/spotify',
+        id: 'spotify',
+        type: 'user',
+        uri: 'spotify:user:spotify',
+      },
+      primary_color: null,
+      public: null,
+      snapshot_id:
+        'MTYxNTI2MTQ4NywwMDAwMDAwMGQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0Mjdl',
+      tracks: {
+        href:
+          'https://api.spotify.com/v1/playlists/37i9dQZF1DX6Cy4Vr7Hu2y/tracks',
+        total: 64,
+      },
+      type: 'playlist',
+      uri: 'spotify:playlist:37i9dQZF1DX6Cy4Vr7Hu2y',
+    },
+  ],
   mood: [
     {
       collaborative: false,

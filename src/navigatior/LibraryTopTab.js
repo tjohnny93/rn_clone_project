@@ -8,7 +8,7 @@ import MyAlbum from '../screens/LibraryTab/MyAlbum';
 
 const TopTab = createMaterialTopTabNavigator();
 
-export default function LibraryTopTab() {
+export default function LibraryTopTab({ navigation }) {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#212121' }}>
       <View style={{ height: 80 }}>
@@ -29,12 +29,12 @@ export default function LibraryTopTab() {
         tabBarOptions={{
           indicatorStyle: {
             backgroundColor: '#1db954',
+            // width: 80,
             // maxWidth: 'content',
             // alignSelf: 'flex-start',
             // left: '5%',
             // width: '%',
             // maxWidth: '100%',
-
             // position: 'absolute',
           },
           labelStyle: {

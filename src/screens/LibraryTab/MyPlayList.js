@@ -16,6 +16,7 @@ export default function MyPlayList({ navigation }) {
   const playRandom = (id, listTitle) => {
     dispatch(getTracks(id, listTitle));
   };
+  console.log(navigation.isFocused());
 
   const renderPlayList = ({ item, index }) => {
     return (
