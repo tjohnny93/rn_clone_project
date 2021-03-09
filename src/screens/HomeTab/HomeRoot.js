@@ -6,7 +6,8 @@ import base64 from 'base-64';
 import { spotify } from '../../config/server';
 import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
 import MainList from './components/MainList';
-import { PLAYLIST_DATA } from './simpleData';
+// import { PLAYLIST_DATA } from './simpleData';
+import { PLAYLIST_DATA } from '../../config/simpleData';
 
 export default function HomeRoot({ navigation }) {
   const token = useSelector(state => state.setCredential);
