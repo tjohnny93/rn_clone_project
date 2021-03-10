@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { store } from '../../App';
+import { instance } from '../config/server';
 
 export const NEXT_MUSIC = 'NEXT_MUSIC';
 export const CURRENT_PLAYLIST = 'CURRENT_PLAYLIST';
@@ -63,15 +64,16 @@ export const setBarStatus = (barStatus, positionMillis, durationMillis) => {
 
 export const getTracks = (id, listTitle) => async dispatch => {
   try {
-    const res = await axios(
-      `https://api.spotify.com/v1/playlists/${id}/tracks`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: 'Bearer ' + store.getState().setCredential,
-        },
-      }
-    );
+    const res = await instance.get(`playlists/${id}/tracks`);
+    // const res = await axios(
+    //   `https://api.spotify.com/v1/playlists/${id}/tracks`,
+    //   {
+    //     method: 'GET',
+    //     headers: {
+    //       Authorization: 'Bearer ' + store.getState().setCredential,
+    //     },
+    //   }
+    // );
     let randomIndex = Math.floor(
       Math.random() * Math.floor(res.data.items.length)
     );

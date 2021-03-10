@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, SafeAreaView } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-// import { createMaterialTopTabNavigator } from 'react-navigation-tabs'; // version 4.x
 import MyPlayList from '../screens/LibraryTab/MyPlayList';
 import MyArtist from '../screens/LibraryTab/MyArtist';
 import MyAlbum from '../screens/LibraryTab/MyAlbum';

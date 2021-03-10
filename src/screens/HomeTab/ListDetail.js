@@ -16,6 +16,7 @@ import {
   setStatus,
   togglePlay,
 } from '../../actions/currentMusic';
+import { instance } from '../../config/server';
 import { likePlayList, unLikePlayList } from '../../actions/likedStatus';
 import Icon from 'react-native-vector-icons/AntDesign';
 import ShuffleIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -23,21 +24,36 @@ import ShuffleIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 export default function ListDetail({ navigation, route }) {
   const token = useSelector(state => state.setCredential);
   const likedPlayList = useSelector(state => state.setLiked.likedPlayList);
-  // const [liked, setLiked] = useState(false);
   const [tracks, setTracks] = useState([]);
   const { id, data } = route.params; // 받는곳에서 route.params로 route안의 객체 접근
   const dispatch = useDispatch();
 
   useEffect(() => {
-    axios(`https://api.spotify.com/v1/playlists/${data.id}/tracks`, {
-      method: 'GET',
-      headers: {
-        Authorization: 'Bearer ' + token,
-      },
-    }).then(res => {
-      setTracks(res.data.items);
-    });
+    // axios(`https://api.spotify.com/v1/playlists/${data.id}/tracks`, {
+    //   method: 'GET',
+    //   headers: {
+    //     Authorization: 'Bearer ' + token,
+    //   },
+    // }).then(res => {
+    //   setTracks(res.data.items);
+    // });
+    getTracks();
   }, [data]);
+
+  const getTracks = async () => {
+    const res = await instance.get(`playlists/${data.id}/tracks`);
+    setTracks(res.data.items);
+  };
+  // useEffect(() => {
+  //   axios(`https://api.spotify.com/v1/playlists/${data.id}/tracks`, {
+  //     method: 'GET',
+  //     headers: {
+  //       Authorization: 'Bearer ' + token,
+  //     },
+  //   }).then(res => {
+  //     setTracks(res.data.items);
+  //   });
+  // }, [data]);
 
   const setCurrentMusic = max => {
     let randomIndex = Math.floor(Math.random() * Math.floor(max));
@@ -89,7 +105,6 @@ export default function ListDetail({ navigation, route }) {
                 onPress={() => addToLiked(data)}
               >
                 <Icon
-                  // name={liked ? 'heart' : 'hearto'}
                   name={likedPlayList.includes(data) ? 'heart' : 'hearto'}
                   size={32}
                   color="white"

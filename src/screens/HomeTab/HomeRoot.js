@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchToken } from '../../actions/';
 import axios from 'axios';
-import base64 from 'base-64';
-import { spotify } from '../../config/server';
+import {
+  TOKEN_REQUEST_API,
+  TOKEN_AUTH,
+  instance,
+  CATEGORY_URL,
+} from '../../config/server';
 import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
 import MainList from './components/MainList';
-// import { PLAYLIST_DATA } from './simpleData';
 import { PLAYLIST_DATA } from '../../config/simpleData';
 
 export default function HomeRoot({ navigation }) {
@@ -22,51 +25,81 @@ export default function HomeRoot({ navigation }) {
   }, []);
 
   useEffect(() => {
-    token.length !== 0 && getCategroy();
+    token.length !== 0 && getCategory();
   }, [token]);
 
   const getToken = async () => {
-    await axios('https://accounts.spotify.com/api/token', {
+    await axios(TOKEN_REQUEST_API, {
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization:
-          'Basic ' +
-          base64.encode(spotify.ClientId + ':' + spotify.ClientSecret),
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: TOKEN_AUTH,
       },
       data: 'grant_type=client_credentials',
       method: 'POST',
     })
-      .then(tokenResponse => {
-        // setlocalToken(tokenResponse.data.access_token);
-        dispatch(fetchToken(tokenResponse.data.access_token));
+      .then(tokenRes => {
+        dispatch(fetchToken(tokenRes.data.access_token));
+        instance.defaults.headers.common[
+          'Authorization'
+        ] = `Bearer ${tokenRes.data.access_token}`;
       })
       .catch(err => {
-        console.log('event', err);
+        console.log('token err', err);
       });
   };
 
-  const getCategroy = async () => {
-    await axios('https://api.spotify.com/v1/browse/categories?locale=sv_US', {
-      method: 'GET',
-      headers: {
-        Authorization: 'Bearer ' + token,
-      },
-    }).then(res => {
-      setCategories(res.data.categories.items.slice(0, 6));
-    });
+  // const getToken = async () => {
+  //   try {
+  //     const res = await axios
+  //       .post(TOKEN_REQUEST_API, {
+  //         headers: {
+  //           Authorization: TOKEN_AUTH,
+  //         },
+  //         data: 'grant_type=client_credentials',
+  //       })
+  //       .then(res => {
+  //         console.log(res);
+  //         dispatch(fetchToken(res.data.access_token));
+  //       });
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
-    // spotify api 업데이트 대비용
-    // await axios(
-    //   'https://api.spotify.com/v1/browse/categories/equal/playlists?locale=sv_US',
-    //   {
-    //     method: 'GET',
-    //     headers: {
-    //       Authorization: 'Bearer ' + token,
-    //     },
-    //   }
-    // ).then(res => {
-    //   console.log(res.data.playlists.items);
-    // });
+  // const getCategory = async () => {
+  //   await axios('https://api.spotify.com/v1/browse/categories?locale=sv_US', {
+  //     method: 'GET',
+  //     headers: {
+  //       Authorization: 'Bearer ' + token,
+  //     },
+  //   }).then(res => {
+  //     setCategories(res.data.categories.items.slice(0, 6));
+  //   });
+  // };
+
+  //   // spotify api 업데이트 대비용
+  //   // await axios(
+  //   //   'https://api.spotify.com/v1/browse/categories/equal/playlists?locale=sv_US',
+  //   //   {
+  //   //     method: 'GET',
+  //   //     headers: {
+  //   //       Authorization: 'Bearer ' + token,
+  //   //     },
+  //   //   }
+  //   // ).then(res => {
+  //   //   console.log(res.data.playlists.items);
+  //   // });
+  // };
+
+  // const getCategory = async () => {
+  //   console.log('isitrunning');
+  //   const res = await getInstance.get(CATEGORY_URL);
+  //   setCategories(res.data.categories.items.slice(0, 6));
+  // };
+
+  const getCategory = async () => {
+    const res = await instance.get(CATEGORY_URL);
+    setCategories(res.data.categories.items.slice(0, 6));
   };
 
   return (
