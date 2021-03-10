@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/Fontisto';
 
 const MainList = ({ navigation, data }) => {
   const goToListDetail = (id, data) => {
@@ -19,10 +20,14 @@ const MainList = ({ navigation, data }) => {
         activeOpacity={0.5}
       >
         <View style={styles.categoryImage}>
-          <Image
-            source={{ uri: item.images[0].url }}
-            style={{ width: 168, height: 168 }}
-          />
+          {item.images[0].url.length === 0 ? (
+            <Icon name="applemusic" size={160} color="white" />
+          ) : (
+            <Image
+              source={{ uri: item.images[0].url }}
+              style={{ width: 168, height: 168 }}
+            />
+          )}
         </View>
         <View style={{ paddingTop: 12, width: 168, height: 48 }}>
           <Text

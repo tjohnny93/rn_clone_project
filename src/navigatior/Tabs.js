@@ -4,7 +4,6 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { NavigationActions } from 'react-navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setBarStatus,

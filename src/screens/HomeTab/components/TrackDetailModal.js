@@ -94,11 +94,15 @@ export default function TrackDetailModal({
             </View>
             <View style={styles.trackHeader}>
               <Text
+                numberOfLines={1}
                 style={{ color: 'white', fontSize: 28, fontWeight: 'bold' }}
               >
                 {currentMusic?.track?.name}
               </Text>
-              <Text style={{ color: '#939393', fontSize: 20, marginTop: 12 }}>
+              <Text
+                numberOfLines={1}
+                style={{ color: '#939393', fontSize: 20, marginTop: 12 }}
+              >
                 {currentMusic?.track?.artists[0]?.name}
               </Text>
             </View>
@@ -181,8 +185,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   trackHeader: {
-    width: '100%',
-    paddingLeft: 34,
+    width: '84%',
+
     marginTop: 48,
   },
   trackTimeWrapper: {

@@ -21,12 +21,16 @@ export default function HomeRoot({ navigation }) {
 
   useEffect(() => {
     getToken();
-    setPlayLists(PLAYLIST_DATA);
+    // setPlayLists(PLAYLIST_DATA);
   }, []);
 
   useEffect(() => {
     token.length !== 0 && getCategory();
   }, [token]);
+
+  useEffect(() => {
+    categories.length !== 0 && getPlaylistsData(categories);
+  }, [categories]);
 
   const getToken = async () => {
     await axios(TOKEN_REQUEST_API, {
@@ -50,7 +54,54 @@ export default function HomeRoot({ navigation }) {
 
   const getCategory = async () => {
     const res = await instance.get(CATEGORY_URL);
-    setCategories(res.data.categories.items.slice(0, 6));
+    setCategories(res.data.categories.items);
+    // setCategories(res.data.categories.items.slice(0, 6));
+  };
+  // console.log(categories);
+
+  // const getPlaylist = categoryId => {
+  //   const res = instance
+  //     .get(`browse/categories/${categoryId}/playlists?locale=sv_US`)
+  //     .catch(err => {
+  //       console.log('playlist err', err);
+  //     });
+  //   return res;
+  // };
+
+  const getPlaylist = async id => {
+    const res = await instance
+      .get(
+        // `browse/categories/toplists/playlists?locale=sv_US`
+        // `browse/categories/toplists/playlists?country=US`
+
+        // `browse/categories/${id}/playlists?country=US`
+        `browse/categories/${id}/playlists?country=KR`
+      )
+      .catch(err => null);
+    return res;
+    console.log(res.data.playlists.items);
+  };
+
+  const getPlaylistsData = async categories => {
+    const playlistRequest = categories?.map(category =>
+      getPlaylist(category.id)
+    );
+    // console.log(playlistRequest);
+    // const categoriesId = categories?.map(category => category.id);
+    // console.log(categoriesId);
+    await axios.all(playlistRequest).then(
+      axios.spread((...responses) => {
+        for (let i = 0; i < responses.length; i++) {
+          setPlayLists(prevPlayList => {
+            return {
+              ...prevPlayList,
+              [categories[i].id]: responses[i].data.playlists.items,
+            };
+          });
+          console.log(playLists);
+        }
+      })
+    );
   };
 
   return (
@@ -68,7 +119,8 @@ export default function HomeRoot({ navigation }) {
                   marginHorizontal: 16,
                 }}
               >
-                {category.name === 'Top Lists' ? 'K-POP' : category.name}
+                {/* {category.name === 'Top Lists' ? 'K-POP' : category.name} */}
+                {category.name}
               </Text>
               <Image
                 source={{ uri: category.icons[0].url }}
