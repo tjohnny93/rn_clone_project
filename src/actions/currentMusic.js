@@ -65,15 +65,6 @@ export const setBarStatus = (barStatus, positionMillis, durationMillis) => {
 export const getTracks = (id, listTitle) => async dispatch => {
   try {
     const res = await instance.get(`playlists/${id}/tracks`);
-    // const res = await axios(
-    //   `https://api.spotify.com/v1/playlists/${id}/tracks`,
-    //   {
-    //     method: 'GET',
-    //     headers: {
-    //       Authorization: 'Bearer ' + store.getState().setCredential,
-    //     },
-    //   }
-    // );
     let randomIndex = Math.floor(
       Math.random() * Math.floor(res.data.items.length)
     );

@@ -29,14 +29,6 @@ export default function ListDetail({ navigation, route }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // axios(`https://api.spotify.com/v1/playlists/${data.id}/tracks`, {
-    //   method: 'GET',
-    //   headers: {
-    //     Authorization: 'Bearer ' + token,
-    //   },
-    // }).then(res => {
-    //   setTracks(res.data.items);
-    // });
     getTracks();
   }, [data]);
 
@@ -44,16 +36,6 @@ export default function ListDetail({ navigation, route }) {
     const res = await instance.get(`playlists/${data.id}/tracks`);
     setTracks(res.data.items);
   };
-  // useEffect(() => {
-  //   axios(`https://api.spotify.com/v1/playlists/${data.id}/tracks`, {
-  //     method: 'GET',
-  //     headers: {
-  //       Authorization: 'Bearer ' + token,
-  //     },
-  //   }).then(res => {
-  //     setTracks(res.data.items);
-  //   });
-  // }, [data]);
 
   const setCurrentMusic = max => {
     let randomIndex = Math.floor(Math.random() * Math.floor(max));
@@ -169,8 +151,6 @@ export default function ListDetail({ navigation, route }) {
               </View>
             </View>
           </TouchableOpacity>
-
-          {/* <Text style={{ color: 'white' }}>ListDetailpage</Text> */}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -192,9 +172,5 @@ const styles = StyleSheet.create({
   },
   trackListWrapper: {
     marginVertical: 36,
-    // height: 100,
-    // overflow: 'hidden',
   },
 });
-
-// List Detail page - Short Detail + certain amount of text songlist (onPress takes to songlist modal);

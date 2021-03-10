@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, SafeAreaView } from 'react-native';
+import { View, Text, SafeAreaView, Dimensions } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import MyPlayList from '../screens/LibraryTab/MyPlayList';
 import MyArtist from '../screens/LibraryTab/MyArtist';
@@ -25,6 +25,7 @@ export default function LibraryTopTab({ navigation }) {
       </View>
       <TopTab.Navigator
         initialRouteName="playList"
+        initialLayout={{ width: Dimensions.get('window').width }} // materialTopTabNavigator 특성상 이걸 지정 안할시 첫로딩에 화면이 흰색으로 렌더링됨. (필수)
         tabBarOptions={{
           indicatorStyle: {
             backgroundColor: '#1db954',

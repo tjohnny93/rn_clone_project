@@ -36,6 +36,7 @@ const TAB_ICON = {
 
 const MyTabBar = ({ state, descriptors, navigation }) => {
   const dispatch = useDispatch();
+  const [isVisible, setIsVisible] = useState(false);
   const isPlaying = useSelector(state => state.setMusic.isPlaying);
   const [sound, setSound] = useState(null);
   const [duration, setDuration] = useState(null);
@@ -96,8 +97,8 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
     return barStatus;
   };
 
-  const openTrackDetailModal = () => {
-    navigation.navigate('TrackDetail');
+  const toggleTrackDetailModal = () => {
+    setIsVisible(!isVisible);
   };
 
   return (
@@ -115,7 +116,11 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
 
       <View style={styles.playerContainer}>
         <View style={{ flexDirection: 'row' }}>
-          <TouchableOpacity onPress={() => openTrackDetailModal()}>
+          <TrackDetailModal
+            isVisible={isVisible}
+            toggleTrackDetailModal={toggleTrackDetailModal}
+          />
+          <TouchableOpacity onPress={() => toggleTrackDetailModal()}>
             {currentMusic?.track ? (
               <Image
                 style={{ width: 76, height: 76 }}
@@ -149,7 +154,7 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
               marginLeft: 12,
               width: 220,
             }}
-            onPress={() => openTrackDetailModal()}
+            onPress={() => toggleTrackDetailModal()}
           >
             <Text
               numberOfLines={1}

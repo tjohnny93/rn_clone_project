@@ -48,55 +48,6 @@ export default function HomeRoot({ navigation }) {
       });
   };
 
-  // const getToken = async () => {
-  //   try {
-  //     const res = await axios
-  //       .post(TOKEN_REQUEST_API, {
-  //         headers: {
-  //           Authorization: TOKEN_AUTH,
-  //         },
-  //         data: 'grant_type=client_credentials',
-  //       })
-  //       .then(res => {
-  //         console.log(res);
-  //         dispatch(fetchToken(res.data.access_token));
-  //       });
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
-  // const getCategory = async () => {
-  //   await axios('https://api.spotify.com/v1/browse/categories?locale=sv_US', {
-  //     method: 'GET',
-  //     headers: {
-  //       Authorization: 'Bearer ' + token,
-  //     },
-  //   }).then(res => {
-  //     setCategories(res.data.categories.items.slice(0, 6));
-  //   });
-  // };
-
-  //   // spotify api 업데이트 대비용
-  //   // await axios(
-  //   //   'https://api.spotify.com/v1/browse/categories/equal/playlists?locale=sv_US',
-  //   //   {
-  //   //     method: 'GET',
-  //   //     headers: {
-  //   //       Authorization: 'Bearer ' + token,
-  //   //     },
-  //   //   }
-  //   // ).then(res => {
-  //   //   console.log(res.data.playlists.items);
-  //   // });
-  // };
-
-  // const getCategory = async () => {
-  //   console.log('isitrunning');
-  //   const res = await getInstance.get(CATEGORY_URL);
-  //   setCategories(res.data.categories.items.slice(0, 6));
-  // };
-
   const getCategory = async () => {
     const res = await instance.get(CATEGORY_URL);
     setCategories(res.data.categories.items.slice(0, 6));

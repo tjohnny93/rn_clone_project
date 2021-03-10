@@ -9,7 +9,6 @@ import TrackList from './components/TrackList';
 import { useRoute } from '@react-navigation/native';
 import { instance } from '../../config/server';
 
-const SEARCH_API = `https://api.spotify.com/v1/search?query=`;
 const DATA_TYPE = ['artist', 'track', 'album'];
 
 export default function SearchRoot({ navigation }) {
@@ -20,7 +19,7 @@ export default function SearchRoot({ navigation }) {
   const [albums, setAlbums] = useState([]);
   const textInputRef = useRef(false);
   const route = useRoute();
-  const focused = navigation.isFocused();
+  // const focused = navigation.isFocused();
 
   useEffect(() => {
     const clear = navigation.addListener('focus', () => {
@@ -31,7 +30,6 @@ export default function SearchRoot({ navigation }) {
     });
     return clear;
   }, [navigation]);
-  // console.log(tracks);
 
   const modifyInput = val => {
     let modifiedVal = val
@@ -65,40 +63,12 @@ export default function SearchRoot({ navigation }) {
     return result(res).catch(err => {
       console.log(err);
     });
-    // await axios(
-    //   SEARCH_API + `${val}&offset=0&limit=10&type=${type}`,
-    //   // `name:${val}&type=album,track,artist&offset=0&limit=5&type=${type}`,
-    //   {
-    //     method: 'GET',
-    //     headers: { Authorization: 'Bearer ' + token },
-    //   }
-    // )
-    //   .then(res => {
-    //     switch (type) {
-    //       case 'artist':
-    //         setArtists(res.data.artists.items);
-    //       // console.log(artists);
-    //       case 'track':
-    //         setTracks(res.data.tracks.items);
-    //       // console.log(tracks);
-    //       case 'album':
-    //         setAlbums(res.data.albums.items);
-    //       // console.log(albums);
-    //       default:
-    //         return null;
-    //     }
-    //   })
-    //   .catch(err => {
-    //     // console.log(err);
-    //     // err === 400 ?
-    //   });
   };
 
   const getSearchResult = val => {
     DATA_TYPE.map(type => {
       getData(val, type);
     });
-    // /getData(val, DATA_TYPE[0]);
   };
 
   return (
@@ -153,7 +123,6 @@ export default function SearchRoot({ navigation }) {
         >
           <Text style={styles.searchTitle}>앨범 검색 결과</Text>
           <AlbumList data={albums} />
-          {/* {console.log(albums)} */}
         </View>
       ) : (
         <></>
@@ -179,8 +148,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#212121',
-    // alignItems: 'flex-start',
-    // justifyContent: 'center',
   },
   searchBarWrapper: {
     height: 52,
@@ -192,10 +159,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     position: 'relative',
   },
-  searchBar: {
-    // height: 30,
-    // fontSize: 30,
-  },
+  searchBar: {},
   searchTitle: {
     fontSize: 30,
     fontWeight: 'bold',
