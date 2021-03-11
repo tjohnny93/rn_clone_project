@@ -7,9 +7,7 @@ import ArtistList from './components/ArtistList';
 import AlbumList from './components/AlbumList';
 import TrackList from './components/TrackList';
 import { useRoute } from '@react-navigation/native';
-import { instance } from '../../config/server';
-
-const DATA_TYPE = ['artist', 'track', 'album'];
+import { instance } from '../../config';
 
 export default function SearchRoot({ navigation }) {
   const token = useSelector(state => state.setCredential);
@@ -41,33 +39,17 @@ export default function SearchRoot({ navigation }) {
     return modifiedVal;
   };
 
-  const getData = async (val, type) => {
+  const getSearchResult = async val => {
     const res = await instance.get(
-      `search?query=${val}&offset=0&limit=8&type=${type}`
+      `search?query=${val}&type=artist%2Ctrack%2Calbum&offset=0&limit=8`
     );
     const result = res => {
-      switch (type) {
-        case 'artist':
-          setArtists(res.data.artists.items);
-        // console.log(artists);
-        case 'track':
-          setTracks(res.data.tracks.items);
-        // console.log(tracks);
-        case 'album':
-          setAlbums(res.data.albums.items);
-        // console.log(albums);
-        default:
-          return null;
-      }
+      setArtists(res.data.artists.items);
+      setTracks(res.data.tracks.items);
+      setAlbums(res.data.albums.items);
     };
     return result(res).catch(err => {
       console.log(err);
-    });
-  };
-
-  const getSearchResult = val => {
-    DATA_TYPE.map(type => {
-      getData(val, type);
     });
   };
 

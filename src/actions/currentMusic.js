@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { store } from '../../App';
-import { instance } from '../config/server';
+import { instance } from '../config';
 
 export const NEXT_MUSIC = 'NEXT_MUSIC';
 export const CURRENT_PLAYLIST = 'CURRENT_PLAYLIST';
@@ -65,6 +65,9 @@ export const setBarStatus = (barStatus, positionMillis, durationMillis) => {
 export const getTracks = (id, listTitle) => async dispatch => {
   try {
     const res = await instance.get(`playlists/${id}/tracks`);
+    // instance.defaults.headers.common['Authorization'] = store.getState(
+    //   store.index
+    // );
     let randomIndex = Math.floor(
       Math.random() * Math.floor(res.data.items.length)
     );

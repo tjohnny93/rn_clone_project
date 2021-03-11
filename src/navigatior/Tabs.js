@@ -11,6 +11,12 @@ import {
   setStatus,
   togglePlay,
 } from '../actions/currentMusic';
+import {
+  TOKEN_REQUEST_API,
+  TOKEN_AUTH,
+  instance,
+  CATEGORY_URL,
+} from '../config';
 import HomeStack from './HomeStack';
 import HomeRoot from '../screens/HomeTab/HomeRoot';
 import SearchStack from './SearchStack';

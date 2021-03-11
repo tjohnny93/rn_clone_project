@@ -7,8 +7,15 @@ import {
   TOKEN_AUTH,
   instance,
   CATEGORY_URL,
-} from '../../config/server';
-import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
+} from '../../config';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Image,
+  FlatList,
+} from 'react-native';
 import MainList from './components/MainList';
 import { PLAYLIST_DATA } from '../../config/simpleData';
 
@@ -28,9 +35,9 @@ export default function HomeRoot({ navigation }) {
     token.length !== 0 && getCategory();
   }, [token]);
 
-  useEffect(() => {
-    categories.length !== 0 && getPlaylistsData(categories);
-  }, [categories]);
+  // useEffect(() => {
+  //   categories.length !== 0 && getPlaylistsData(categories);
+  // }, [categories]);
 
   const getToken = async () => {
     await axios(TOKEN_REQUEST_API, {
@@ -56,17 +63,8 @@ export default function HomeRoot({ navigation }) {
     const res = await instance.get(CATEGORY_URL);
     setCategories(res.data.categories.items);
     // setCategories(res.data.categories.items.slice(0, 6));
+    await getPlaylistsData(res.data.categories.items);
   };
-  // console.log(categories);
-
-  // const getPlaylist = categoryId => {
-  //   const res = instance
-  //     .get(`browse/categories/${categoryId}/playlists?locale=sv_US`)
-  //     .catch(err => {
-  //       console.log('playlist err', err);
-  //     });
-  //   return res;
-  // };
 
   const getPlaylist = async id => {
     const res = await instance
@@ -100,7 +98,7 @@ export default function HomeRoot({ navigation }) {
   };
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={true}>
       {categories.map(category => {
         return (
           <View key={category.id}>

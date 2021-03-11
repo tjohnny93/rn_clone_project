@@ -16,13 +16,12 @@ import {
   setStatus,
   togglePlay,
 } from '../../actions/currentMusic';
-import { instance } from '../../config/server';
+import { instance } from '../../config';
 import { likePlayList, unLikePlayList } from '../../actions/likedStatus';
 import Icon from 'react-native-vector-icons/AntDesign';
 import ShuffleIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function ListDetail({ navigation, route }) {
-  const token = useSelector(state => state.setCredential);
   const likedPlayList = useSelector(state => state.setLiked.likedPlayList);
   const [tracks, setTracks] = useState([]);
   const { id, data } = route.params; // 받는곳에서 route.params로 route안의 객체 접근
