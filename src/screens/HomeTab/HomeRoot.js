@@ -97,38 +97,79 @@ export default function HomeRoot({ navigation }) {
     );
   };
 
+  // return (
+  //   <ScrollView style={styles.container} showsVerticalScrollIndicator={true}>
+  //     {categories.map(category => {
+  //       return (
+  //         <View key={category.id}>
+  //           <View style={{ flexDirection: 'row' }}>
+  //             <Text
+  //               style={{
+  //                 fontSize: 28,
+  //                 color: 'white',
+  //                 fontWeight: 'bold',
+  //                 paddingBottom: 28,
+  //                 marginHorizontal: 16,
+  //               }}
+  //             >
+  //               {category.name}
+  //             </Text>
+  //             <Image
+  //               source={{ uri: category.icons[0].url }}
+  //               style={{ width: 40, height: 40, borderRadius: 20 }}
+  //             />
+  //           </View>
+  //           <MainList
+  //             data={playLists[category.id]}
+  //             selectedCategory={category.name}
+  //             navigation={navigation}
+  //           ></MainList>
+  //         </View>
+  //       );
+  //     })}
+  //     <View style={{ padding: 16 }}></View>
+  //   </ScrollView>
+  // );
+  const renderCategories = ({ item, index }) => {
+    return (
+      <View>
+        <View style={{ flexDirection: 'row' }}>
+          <Text
+            style={{
+              fontSize: 28,
+              color: 'white',
+              fontWeight: 'bold',
+              paddingBottom: 28,
+              marginHorizontal: 16,
+            }}
+          >
+            {item.name}
+          </Text>
+          <Image
+            source={{ uri: item.icons[0].url }}
+            style={{ width: 40, height: 40, borderRadius: 20 }}
+          />
+        </View>
+        <MainList
+          data={playLists[item.id]}
+          selectedCategory={item.name}
+          navigation={navigation}
+        ></MainList>
+      </View>
+    );
+  };
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={true}>
-      {categories.map(category => {
-        return (
-          <View key={category.id}>
-            <View style={{ flexDirection: 'row' }}>
-              <Text
-                style={{
-                  fontSize: 28,
-                  color: 'white',
-                  fontWeight: 'bold',
-                  paddingBottom: 28,
-                  marginHorizontal: 16,
-                }}
-              >
-                {category.name}
-              </Text>
-              <Image
-                source={{ uri: category.icons[0].url }}
-                style={{ width: 40, height: 40, borderRadius: 20 }}
-              />
-            </View>
-            <MainList
-              data={playLists[category.id]}
-              selectedCategory={category.name}
-              navigation={navigation}
-            ></MainList>
-          </View>
-        );
-      })}
-      <View style={{ padding: 16 }}></View>
-    </ScrollView>
+    <View style={styles.container}>
+      <FlatList
+        data={categories}
+        renderItem={renderCategories}
+        keyExtractor={item => String(item.id)}
+        bounces={false}
+        initialNumToRender={2}
+        maxToRenderPerBatch={4}
+        // windowSize={11}
+      />
+    </View>
   );
 }
 

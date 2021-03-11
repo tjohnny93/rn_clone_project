@@ -82,7 +82,6 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
       { shouldPlay: true },
       playerStatus
     );
-
     setSound(sound);
     // getProgress();
     // await sound.playAsync();

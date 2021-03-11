@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, ActivityIndicator } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Fontisto';
 
@@ -49,6 +49,8 @@ const MainList = ({ navigation, data }) => {
       <FlatList
         data={data}
         renderItem={renderList}
+        initialNumToRender={3}
+        maxToRenderPerBatch={6}
         keyExtractor={item => String(item.id)} // 모바일은 id값을 부여할때 string으로 바꿔서 받아야한다
         horizontal={true} // horizontal 로만 작성 가능 true라 생략 가능
         showsHorizontalScrollIndicator={false}

@@ -83,6 +83,34 @@ export default function SearchRoot({ navigation }) {
           onChange={() => getSearchResult(modifyInput(inputValue))}
         ></TextInput>
       </View>
+      {artists.length + albums.length + tracks.length === 0 ? (
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 252,
+          }}
+        >
+          <Text
+            style={{
+              color: 'white',
+              fontSize: 24,
+              fontWeight: 'bold',
+              position: 'relative',
+            }}
+          >
+            {'       '}검색을 해보세요.
+          </Text>
+          <Icon
+            name="search1"
+            size={28}
+            color="white"
+            style={{ position: 'absolute', left: 112 }}
+          />
+        </View>
+      ) : (
+        <></>
+      )}
       {artists.length > 0 ? (
         <View
           style={{

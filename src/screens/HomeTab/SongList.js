@@ -179,6 +179,8 @@ export default function SongList({ navigation, route }) {
         <FlatList
           data={songList}
           renderItem={renderTracks}
+          initialNumToRender={3}
+          // windowSize={1}
           keyExtractor={(item, index) => String(index)}
           bounces={false}
           onEndReached={onEndReached}
