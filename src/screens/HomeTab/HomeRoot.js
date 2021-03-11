@@ -71,15 +71,11 @@ export default function HomeRoot({ navigation }) {
   const getPlaylist = async id => {
     const res = await instance
       .get(
-        // `browse/categories/toplists/playlists?locale=sv_US`
-        // `browse/categories/toplists/playlists?country=US`
-
         // `browse/categories/${id}/playlists?country=US`
         `browse/categories/${id}/playlists?country=KR`
       )
       .catch(err => null);
     return res;
-    console.log(res.data.playlists.items);
   };
 
   const getPlaylistsData = async categories => {
@@ -98,7 +94,6 @@ export default function HomeRoot({ navigation }) {
               [categories[i].id]: responses[i].data.playlists.items,
             };
           });
-          console.log(playLists);
         }
       })
     );
@@ -119,7 +114,6 @@ export default function HomeRoot({ navigation }) {
                   marginHorizontal: 16,
                 }}
               >
-                {/* {category.name === 'Top Lists' ? 'K-POP' : category.name} */}
                 {category.name}
               </Text>
               <Image

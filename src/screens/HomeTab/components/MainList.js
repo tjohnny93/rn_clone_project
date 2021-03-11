@@ -47,21 +47,15 @@ const MainList = ({ navigation, data }) => {
   return (
     <View style={styles.mainListWrapper}>
       <FlatList
-        // data={genres}
         data={data}
-        // data={playList}
         renderItem={renderList}
         keyExtractor={item => String(item.id)} // 모바일은 id값을 부여할때 string으로 바꿔서 받아야한다
         horizontal={true} // horizontal 로만 작성 가능 true라 생략 가능
         showsHorizontalScrollIndicator={false}
-        // showsVerticalScrollIndicator={false}
         // listEmptyComponent, listHeaderComponent, listFooterComponent
         bounces={false}
         // onEndReached={onEndReached}
         // onEndReachedThreshold={0.7} // 현업에서 0.7 내지 0.8 사용
-        // ListFooterComponent={
-        //   loading ? <ActivityIndicator size="large" /> : null //네이티브에서는 무조건 ternary로 조건부
-        // }
       />
     </View>
   );
