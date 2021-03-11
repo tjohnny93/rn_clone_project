@@ -4,7 +4,6 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { NavigationActions } from 'react-navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setBarStatus,
@@ -12,6 +11,12 @@ import {
   setStatus,
   togglePlay,
 } from '../actions/currentMusic';
+import {
+  TOKEN_REQUEST_API,
+  TOKEN_AUTH,
+  instance,
+  CATEGORY_URL,
+} from '../config';
 import HomeStack from './HomeStack';
 import HomeRoot from '../screens/HomeTab/HomeRoot';
 import SearchStack from './SearchStack';
@@ -36,6 +41,7 @@ const TAB_ICON = {
 
 const MyTabBar = ({ state, descriptors, navigation }) => {
   const dispatch = useDispatch();
+  const [isVisible, setIsVisible] = useState(false);
   const isPlaying = useSelector(state => state.setMusic.isPlaying);
   const [sound, setSound] = useState(null);
   const [duration, setDuration] = useState(null);
@@ -76,7 +82,6 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
       { shouldPlay: true },
       playerStatus
     );
-
     setSound(sound);
     // getProgress();
     // await sound.playAsync();
@@ -96,8 +101,8 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
     return barStatus;
   };
 
-  const openTrackDetailModal = () => {
-    navigation.navigate('TrackDetail');
+  const toggleTrackDetailModal = () => {
+    setIsVisible(!isVisible);
   };
 
   return (
@@ -115,7 +120,11 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
 
       <View style={styles.playerContainer}>
         <View style={{ flexDirection: 'row' }}>
-          <TouchableOpacity onPress={() => openTrackDetailModal()}>
+          <TrackDetailModal
+            isVisible={isVisible}
+            toggleTrackDetailModal={toggleTrackDetailModal}
+          />
+          <TouchableOpacity onPress={() => toggleTrackDetailModal()}>
             {currentMusic?.track ? (
               <Image
                 style={{ width: 76, height: 76 }}
@@ -149,7 +158,7 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
               marginLeft: 12,
               width: 220,
             }}
-            onPress={() => openTrackDetailModal()}
+            onPress={() => toggleTrackDetailModal()}
           >
             <Text
               numberOfLines={1}

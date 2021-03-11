@@ -16,28 +16,25 @@ import {
   setStatus,
   togglePlay,
 } from '../../actions/currentMusic';
+import { instance } from '../../config';
 import { likePlayList, unLikePlayList } from '../../actions/likedStatus';
 import Icon from 'react-native-vector-icons/AntDesign';
 import ShuffleIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function ListDetail({ navigation, route }) {
-  const token = useSelector(state => state.setCredential);
   const likedPlayList = useSelector(state => state.setLiked.likedPlayList);
-  // const [liked, setLiked] = useState(false);
   const [tracks, setTracks] = useState([]);
   const { id, data } = route.params; // 받는곳에서 route.params로 route안의 객체 접근
   const dispatch = useDispatch();
 
   useEffect(() => {
-    axios(`https://api.spotify.com/v1/playlists/${data.id}/tracks`, {
-      method: 'GET',
-      headers: {
-        Authorization: 'Bearer ' + token,
-      },
-    }).then(res => {
-      setTracks(res.data.items);
-    });
+    getTracks();
   }, [data]);
+
+  const getTracks = async () => {
+    const res = await instance.get(`playlists/${data.id}/tracks`);
+    setTracks(res.data.items);
+  };
 
   const setCurrentMusic = max => {
     let randomIndex = Math.floor(Math.random() * Math.floor(max));
@@ -89,7 +86,6 @@ export default function ListDetail({ navigation, route }) {
                 onPress={() => addToLiked(data)}
               >
                 <Icon
-                  // name={liked ? 'heart' : 'hearto'}
                   name={likedPlayList.includes(data) ? 'heart' : 'hearto'}
                   size={32}
                   color="white"
@@ -154,14 +150,6 @@ export default function ListDetail({ navigation, route }) {
               </View>
             </View>
           </TouchableOpacity>
-
-          <Text style={{ color: 'white' }}>ListDetailpage</Text>
-          <Text style={{ color: 'white' }}>
-            동적라우팅 id 이거 사용해서 카테고리 내부 데이터 잘라오기?: {id}
-          </Text>
-          <TouchableOpacity onPress={openSongList}>
-            <Text style={{ color: 'white' }}>노래리스트 버튼</Text>
-          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -183,9 +171,5 @@ const styles = StyleSheet.create({
   },
   trackListWrapper: {
     marginVertical: 36,
-    // height: 100,
-    // overflow: 'hidden',
   },
 });
-
-// List Detail page - Short Detail + certain amount of text songlist (onPress takes to songlist modal);

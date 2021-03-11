@@ -1,13 +1,13 @@
 import axios from 'axios';
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TextInput, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { useSelector } from 'react-redux';
 import ArtistList from './components/ArtistList';
+import AlbumList from './components/AlbumList';
+import TrackList from './components/TrackList';
 import { useRoute } from '@react-navigation/native';
-
-const SEARCH_API = `https://api.spotify.com/v1/search?query=`;
-const DATA_TYPE = ['artist', 'track', 'album'];
+import { instance } from '../../config';
 
 export default function SearchRoot({ navigation }) {
   const token = useSelector(state => state.setCredential);
@@ -17,10 +17,8 @@ export default function SearchRoot({ navigation }) {
   const [albums, setAlbums] = useState([]);
   const textInputRef = useRef(false);
   const route = useRoute();
-  const focused = navigation.isFocused();
-  console.log(navigation);
+  // const focused = navigation.isFocused();
 
-  // console.log(artists);
   useEffect(() => {
     const clear = navigation.addListener('focus', () => {
       setInputValue('');
@@ -41,41 +39,22 @@ export default function SearchRoot({ navigation }) {
     return modifiedVal;
   };
 
-  const getData = async (val, type) => {
-    await axios(SEARCH_API + `${val}&offset=0&limit=5&type=${type}`, {
-      method: 'GET',
-      headers: { Authorization: 'Bearer ' + token },
-    })
-      .then(res => {
-        switch (type) {
-          case 'artist':
-            setArtists(res.data.artists.items);
-          // console.log(artists);
-
-          case 'track':
-            setTracks(res.data.tracks.items);
-          // console.log(tracks);
-          case 'album':
-            setAlbums(res.data.albums.items);
-          // console.log(albums);
-          default:
-            return null;
-        }
-      })
-      .catch(err => {
-        // console.log(err);
-        // err === 400 ?
-      });
-  };
-
-  const getSearchResult = val => {
-    DATA_TYPE.map(type => {
-      getData(val, type);
+  const getSearchResult = async val => {
+    const res = await instance.get(
+      `search?query=${val}&type=artist%2Ctrack%2Calbum&offset=0&limit=8`
+    );
+    const result = res => {
+      setArtists(res.data.artists.items);
+      setTracks(res.data.tracks.items);
+      setAlbums(res.data.albums.items);
+    };
+    return result(res).catch(err => {
+      console.log(err);
     });
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={{ marginTop: 20, marginLeft: 24 }}>
         {textInputRef.current.isFocused ? (
           <></>
@@ -104,6 +83,34 @@ export default function SearchRoot({ navigation }) {
           onChange={() => getSearchResult(modifyInput(inputValue))}
         ></TextInput>
       </View>
+      {artists.length + albums.length + tracks.length === 0 ? (
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 252,
+          }}
+        >
+          <Text
+            style={{
+              color: 'white',
+              fontSize: 24,
+              fontWeight: 'bold',
+              position: 'relative',
+            }}
+          >
+            {'       '}검색을 해보세요.
+          </Text>
+          <Icon
+            name="search1"
+            size={28}
+            color="white"
+            style={{ position: 'absolute', left: 112 }}
+          />
+        </View>
+      ) : (
+        <></>
+      )}
       {artists.length > 0 ? (
         <View
           style={{
@@ -111,22 +118,39 @@ export default function SearchRoot({ navigation }) {
             marginBottom: 12,
           }}
         >
-          <Text
-            style={{
-              fontSize: 30,
-              fontWeight: 'bold',
-              color: 'white',
-              marginBottom: 12,
-            }}
-          >
-            아티스트 검색 결과
-          </Text>
+          <Text style={styles.searchTitle}>아티스트 검색 결과</Text>
           <ArtistList data={artists} />
         </View>
       ) : (
         <></>
       )}
-    </View>
+      {albums.length > 0 ? (
+        <View
+          style={{
+            marginHorizontal: 24,
+            marginBottom: 12,
+          }}
+        >
+          <Text style={styles.searchTitle}>앨범 검색 결과</Text>
+          <AlbumList data={albums} />
+        </View>
+      ) : (
+        <></>
+      )}
+      {tracks.length > 0 ? (
+        <View
+          style={{
+            marginHorizontal: 24,
+            marginBottom: 12,
+          }}
+        >
+          <Text style={styles.searchTitle}>트랙 검색 결과</Text>
+          <TrackList data={tracks} />
+        </View>
+      ) : (
+        <></>
+      )}
+    </ScrollView>
   );
 }
 
@@ -134,21 +158,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#212121',
-    // alignItems: 'flex-start',
-    // justifyContent: 'center',
   },
   searchBarWrapper: {
     height: 52,
     backgroundColor: 'white',
     margin: 24,
-    borderRadius: 8,
+    borderRadius: 16,
     paddingHorizontal: 10,
     paddingLeft: 52,
     justifyContent: 'center',
     position: 'relative',
   },
-  searchBar: {
-    // height: 30,
-    // fontSize: 30,
+  searchBar: {},
+  searchTitle: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: 'white',
+    marginBottom: 16,
   },
 });

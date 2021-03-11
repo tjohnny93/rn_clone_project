@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, ActivityIndicator } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/Fontisto';
 
 const MainList = ({ navigation, data }) => {
   const goToListDetail = (id, data) => {
@@ -19,10 +20,14 @@ const MainList = ({ navigation, data }) => {
         activeOpacity={0.5}
       >
         <View style={styles.categoryImage}>
-          <Image
-            source={{ uri: item.images[0].url }}
-            style={{ width: 168, height: 168 }}
-          />
+          {item.images[0].url.length === 0 ? (
+            <Icon name="applemusic" size={160} color="white" />
+          ) : (
+            <Image
+              source={{ uri: item.images[0].url }}
+              style={{ width: 168, height: 168 }}
+            />
+          )}
         </View>
         <View style={{ paddingTop: 12, width: 168, height: 48 }}>
           <Text
@@ -42,21 +47,17 @@ const MainList = ({ navigation, data }) => {
   return (
     <View style={styles.mainListWrapper}>
       <FlatList
-        // data={genres}
         data={data}
-        // data={playList}
         renderItem={renderList}
+        initialNumToRender={3}
+        maxToRenderPerBatch={6}
         keyExtractor={item => String(item.id)} // 모바일은 id값을 부여할때 string으로 바꿔서 받아야한다
         horizontal={true} // horizontal 로만 작성 가능 true라 생략 가능
         showsHorizontalScrollIndicator={false}
-        // showsVerticalScrollIndicator={false}
         // listEmptyComponent, listHeaderComponent, listFooterComponent
         bounces={false}
         // onEndReached={onEndReached}
         // onEndReachedThreshold={0.7} // 현업에서 0.7 내지 0.8 사용
-        // ListFooterComponent={
-        //   loading ? <ActivityIndicator size="large" /> : null //네이티브에서는 무조건 ternary로 조건부
-        // }
       />
     </View>
   );

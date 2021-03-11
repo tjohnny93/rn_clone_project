@@ -1,17 +1,9 @@
 import React, { useEffect } from 'react';
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  StatusBar,
-  SafeAreaView,
-} from 'react-native';
+import { StyleSheet, StatusBar, SafeAreaView } from 'react-native';
 import { applyMiddleware, createStore } from 'redux';
 import { Provider, useDispatch } from 'react-redux';
 import rootReducer from './src/reducers/';
 import thunk from 'redux-thunk';
-// import { createStackNavigator } from '@react-navigation/stack';
 import * as SplashScreen from 'expo-splash-screen';
 import Tabs from './src/navigatior/Tabs';
 
@@ -27,7 +19,7 @@ export default function App() {
   useEffect(() => {
     setTimeout(async () => {
       await SplashScreen.hideAsync();
-    }, 1500);
+    }, 4000);
   }, []);
 
   return (

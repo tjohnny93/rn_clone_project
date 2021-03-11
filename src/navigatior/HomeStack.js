@@ -47,14 +47,14 @@ export default function HomeStack() {
           cardStyle: { backgroundColor: 'transparent' },
         }}
       />
-      <RootStack.Screen
+      {/* <RootStack.Screen
         name="TrackDetail"
         component={TrackDetailModal}
         options={{
           headerShown: false,
           cardStyle: { backgroundColor: 'transparent' },
         }}
-      />
+      /> */}
     </RootStack.Navigator>
   );
 }

@@ -18,8 +18,12 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import { useSelector, useDispatch } from 'react-redux';
 import { likeTrack, unLikeTrack } from '../../../actions/likedStatus';
 
-export default function TrackDetailModal({ navigation, route }) {
-  const [isVisible, setIsVisible] = useState(true);
+export default function TrackDetailModal({
+  navigation,
+  route,
+  toggleTrackDetailModal,
+  isVisible,
+}) {
   const isPlaying = useSelector(state => state.setMusic.isPlaying);
   // const currentPlayList = useSelector(state => state.setMusic.playList);
   // const currentIndex = useSelector(state => state.setMusic.currentIndex);
@@ -32,13 +36,14 @@ export default function TrackDetailModal({ navigation, route }) {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
+  // useEffect(() => {
+  //   // setIsVisible(true);
+  // }, []);
 
   const closeModal = () => {
-    navigation.goBack();
-    setIsVisible(false);
+    // navigation.goBack();
+    // setIsVisible(false);
+    toggleTrackDetailModal();
   };
 
   const getTime = millis => {
@@ -89,11 +94,15 @@ export default function TrackDetailModal({ navigation, route }) {
             </View>
             <View style={styles.trackHeader}>
               <Text
+                numberOfLines={1}
                 style={{ color: 'white', fontSize: 28, fontWeight: 'bold' }}
               >
                 {currentMusic?.track?.name}
               </Text>
-              <Text style={{ color: '#939393', fontSize: 20, marginTop: 12 }}>
+              <Text
+                numberOfLines={1}
+                style={{ color: '#939393', fontSize: 20, marginTop: 12 }}
+              >
                 {currentMusic?.track?.artists[0]?.name}
               </Text>
             </View>
@@ -176,8 +185,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   trackHeader: {
-    width: '100%',
-    paddingLeft: 34,
+    width: '84%',
+
     marginTop: 48,
   },
   trackTimeWrapper: {
