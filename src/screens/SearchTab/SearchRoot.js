@@ -1,4 +1,5 @@
 import axios from 'axios';
+import _, { debounce } from 'lodash';
 import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -53,6 +54,13 @@ export default function SearchRoot({ navigation }) {
     });
   };
 
+  const getResult = e => {
+    setInputValue(e);
+    delayedRequest(modifyInput(inputValue));
+  };
+
+  const delayedRequest = _.debounce(val => getSearchResult(val), 500);
+
   return (
     <ScrollView style={styles.container}>
       <View style={{ marginTop: 20, marginLeft: 24 }}>
@@ -79,8 +87,10 @@ export default function SearchRoot({ navigation }) {
           placeholder="아티스트, 곡 또는 앨범"
           placeholderTextColor="black"
           ref={textInputRef}
-          onChangeText={e => setInputValue(e)} //%20 || + === space
-          onChange={() => getSearchResult(modifyInput(inputValue))}
+          // onChangeText={e => setInputValue(e)} //%20 || + === space
+          // onChange={() => delayedRequest(modifyInput(inputValue))}
+          // onChange={() => getSearchResult(modifyInput(inputValue))}
+          onChangeText={e => getResult(e)}
         ></TextInput>
       </View>
       {artists.length + albums.length + tracks.length === 0 ? (
