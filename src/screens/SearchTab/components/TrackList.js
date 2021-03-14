@@ -32,11 +32,6 @@ const TrackList = ({ data }) => {
           </View>
         </View>
         <View style={{}}>
-          {/* <Text style={{ color: 'white', position: 'relative' }}>
-            {item?.followers?.total
-              .toString()
-              .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-          </Text> */}
           <Icon
             name="music-box-multiple"
             size={32}

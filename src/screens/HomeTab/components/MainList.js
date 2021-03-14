@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, Image, ActivityIndicator } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Fontisto';
@@ -36,9 +36,6 @@ const MainList = ({ navigation, data }) => {
           >
             {item.name}
           </Text>
-        </View>
-        <View>
-          <Text>{/* {item.description} */}</Text>
         </View>
       </TouchableOpacity>
     );

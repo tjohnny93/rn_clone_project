@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 export default function MyAlbum({ navigation }) {
   const likedTrack = useSelector(state => state.setLiked.likedTrack);
-  const currentMusic = useSelector(state => state.setMusic.currentMusic);
+
   const goToHomeTab = () => {
     navigation.navigate('Home');
   };
@@ -86,7 +86,6 @@ export default function MyAlbum({ navigation }) {
         renderItem={renderPlayList}
         keyExtractor={(item, index) => String(item?.id)}
         bounces={false}
-        // ListHeaderComponent={<Text>내가 고른 플레이리스트</Text>}
         numColumns={2}
       ></FlatList>
     </View>

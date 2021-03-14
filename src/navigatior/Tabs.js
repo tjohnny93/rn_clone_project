@@ -1,22 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Audio } from 'expo-av';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  setBarStatus,
-  setNextMusic,
-  setStatus,
-  togglePlay,
-} from '../actions/currentMusic';
-import {
-  TOKEN_REQUEST_API,
-  TOKEN_AUTH,
-  instance,
-  CATEGORY_URL,
-} from '../config';
+import { setBarStatus, setNextMusic, setStatus } from '../actions/currentMusic';
+
 import HomeStack from './HomeStack';
 import HomeRoot from '../screens/HomeTab/HomeRoot';
 import SearchStack from './SearchStack';

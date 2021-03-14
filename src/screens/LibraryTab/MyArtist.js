@@ -10,28 +10,7 @@ export default function MyArtist({ navigation }) {
   };
 
   const renderPlayList = ({ item, index }) => {
-    return (
-      <View>
-        {/* <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: 160,
-            margin: 12,
-          }}
-        >
-          <TouchableOpacity onPress={goToListDetail(item.id, item)}>
-            <Image
-              source={{ uri: item?.images[0]?.url }}
-              style={{ width: 160, height: 160, marginBottom: 20 }}
-            />
-          </TouchableOpacity>
-          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16 }}>
-            {item.name}
-          </Text>
-        </View> */}
-      </View>
-    );
+    return <View></View>; // yet to create liked global state for artist
   };
 
   return likedTrack.length === 0 ? (

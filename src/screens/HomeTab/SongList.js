@@ -1,19 +1,12 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  setCurrentMusic,
-  setCurrentPlayList,
-} from '../../actions/currentMusic';
+import { setCurrentPlayList } from '../../actions/currentMusic';
 import {
   View,
   Text,
-  Modal,
   StyleSheet,
   TouchableOpacity,
-  SafeAreaView,
   Image,
-  ScrollView,
   ActivityIndicator,
 } from 'react-native';
 import { BlurView } from 'expo-blur';
@@ -26,7 +19,6 @@ export default function SongList({ navigation, route }) {
   const token = useSelector(state => state.setCredential);
   const { id, fullList, listTitle } = route.params;
   const [songList, setSongList] = useState([]);
-  // const [fullList, setFullList] = useState([]);
   const [offset, setOffset] = useState(0);
   const [loading, setloading] = useState(false);
   const dispatch = useDispatch();
@@ -39,30 +31,14 @@ export default function SongList({ navigation, route }) {
     getTracks();
   }, []);
 
-  // const getTracks = async () => {
   const getTracks = () => {
     if (loading) {
       return;
     }
     setloading(true);
 
-    // const response = await axios(
-    //   `https://api.spotify.com/v1/playlists/${id}/tracks`,
-    //   {
-    //     method: 'GET',
-    //     headers: {
-    //       Authorization: 'Bearer ' + token,
-    //     },
-    //   }
-    // );
-    // const result = await response;
-
-    // setSongList([
-    //   ...songList,
-    //   ...result.data.items.slice(offset, offset + LIMIT),
-    // ]);
     setSongList([...songList, ...fullList.slice(offset, offset + LIMIT)]);
-    // setFullList(result.data.items);
+
     setOffset(offset + LIMIT);
     setloading(false);
   };
@@ -72,8 +48,6 @@ export default function SongList({ navigation, route }) {
   };
 
   const setCurrentMusic = index => {
-    // dispatch(setCurrentMusic(song));
-
     dispatch(setCurrentPlayList(fullList, index, listTitle));
   };
 
@@ -175,7 +149,6 @@ export default function SongList({ navigation, route }) {
       <View
         style={{ height: 660, backgroundColor: '#151515', paddingBottom: 80 }}
       >
-        {/* {songList.length > 0 ? ( */}
         <FlatList
           data={songList}
           renderItem={renderTracks}
@@ -203,13 +176,10 @@ export default function SongList({ navigation, route }) {
             ) : null
           }
         />
-        {/* ) : null} */}
       </View>
     </View>
   );
 }
-
-//SongList Modal with InfiniteScroll
 
 const styles = StyleSheet.create({
   modalContainer: {

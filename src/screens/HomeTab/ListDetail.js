@@ -8,14 +8,10 @@ import {
   ScrollView,
   Linking,
 } from 'react-native';
-import axios from 'axios';
+
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  setCurrentPlayList,
-  setStatus,
-  togglePlay,
-} from '../../actions/currentMusic';
+import { setCurrentPlayList } from '../../actions/currentMusic';
 import { instance } from '../../config';
 import { likePlayList, unLikePlayList } from '../../actions/likedStatus';
 import Icon from 'react-native-vector-icons/AntDesign';
