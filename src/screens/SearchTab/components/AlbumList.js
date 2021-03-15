@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 const AlbumList = ({ data }) => {
-  // console.log(data);
   const renderAlbums = ({ item, index }) => {
     return (
       <TouchableOpacity
@@ -38,18 +37,12 @@ const AlbumList = ({ data }) => {
             justifyContent: 'flex-end',
           }}
         >
-          {/* <Text style={{ color: 'white', position: 'relative' }}>
-            {item.type}
-          </Text> */}
           <Icon
             name="album"
             size={36}
             color="#939393"
             style={{ paddingRight: 28 }}
           />
-          {/* <Text style={{ color: 'white' }}>
-            Total Tracks: {item.total_tracks}
-          </Text> */}
         </View>
       </TouchableOpacity>
     );

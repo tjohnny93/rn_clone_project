@@ -29,19 +29,10 @@ export default function LibraryTopTab({ navigation }) {
         tabBarOptions={{
           indicatorStyle: {
             backgroundColor: '#1db954',
-            // width: 80,
-            // maxWidth: 'content',
-            // alignSelf: 'flex-start',
-            // left: '5%',
-            // width: '%',
-            // maxWidth: '100%',
-            // position: 'absolute',
           },
           labelStyle: {
             fontSize: 20,
             fontWeight: 'bold',
-            // position: 'relative',
-            // maxWidth: 'unset',
           },
           style: {
             backgroundColor: '#212121',
@@ -57,7 +48,6 @@ export default function LibraryTopTab({ navigation }) {
           component={MyPlayList}
           options={{
             title: '플레이리스트',
-            // tabBarLabel: { focused: true, color: 'white' },
           }}
         />
         <TopTab.Screen

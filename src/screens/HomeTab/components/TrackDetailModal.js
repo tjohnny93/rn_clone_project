@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -25,8 +25,6 @@ export default function TrackDetailModal({
   isVisible,
 }) {
   const isPlaying = useSelector(state => state.setMusic.isPlaying);
-  // const currentPlayList = useSelector(state => state.setMusic.playList);
-  // const currentIndex = useSelector(state => state.setMusic.currentIndex);
   const likedTrack = useSelector(state => state.setLiked.likedTrack);
   const currentMusic = useSelector(state => state.setMusic.currentMusic);
   const listTitle = useSelector(state => state.setMusic.listTitle);
@@ -36,13 +34,7 @@ export default function TrackDetailModal({
 
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   // setIsVisible(true);
-  // }, []);
-
   const closeModal = () => {
-    // navigation.goBack();
-    // setIsVisible(false);
     toggleTrackDetailModal();
   };
 

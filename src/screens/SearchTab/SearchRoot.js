@@ -1,23 +1,18 @@
-import axios from 'axios';
+import _, { debounce } from 'lodash';
 import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
-import { useSelector } from 'react-redux';
 import ArtistList from './components/ArtistList';
 import AlbumList from './components/AlbumList';
 import TrackList from './components/TrackList';
-import { useRoute } from '@react-navigation/native';
 import { instance } from '../../config';
 
 export default function SearchRoot({ navigation }) {
-  const token = useSelector(state => state.setCredential);
   const [inputValue, setInputValue] = useState('');
   const [artists, setArtists] = useState([]);
   const [tracks, setTracks] = useState([]);
   const [albums, setAlbums] = useState([]);
   const textInputRef = useRef(false);
-  const route = useRoute();
-  // const focused = navigation.isFocused();
 
   useEffect(() => {
     const clear = navigation.addListener('focus', () => {
@@ -39,6 +34,8 @@ export default function SearchRoot({ navigation }) {
     return modifiedVal;
   };
 
+  const delayedRequest = _.debounce(val => getSearchResult(val), 500);
+
   const getSearchResult = async val => {
     const res = await instance.get(
       `search?query=${val}&type=artist%2Ctrack%2Calbum&offset=0&limit=8`
@@ -51,6 +48,11 @@ export default function SearchRoot({ navigation }) {
     return result(res).catch(err => {
       console.log(err);
     });
+  };
+
+  const getResult = e => {
+    setInputValue(e);
+    delayedRequest(modifyInput(inputValue));
   };
 
   return (
@@ -79,8 +81,7 @@ export default function SearchRoot({ navigation }) {
           placeholder="아티스트, 곡 또는 앨범"
           placeholderTextColor="black"
           ref={textInputRef}
-          onChangeText={e => setInputValue(e)} //%20 || + === space
-          onChange={() => getSearchResult(modifyInput(inputValue))}
+          onChangeText={e => getResult(e)}
         ></TextInput>
       </View>
       {artists.length + albums.length + tracks.length === 0 ? (

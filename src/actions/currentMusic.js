@@ -1,5 +1,3 @@
-import axios from 'axios';
-import { store } from '../../App';
 import { instance } from '../config';
 
 export const NEXT_MUSIC = 'NEXT_MUSIC';
@@ -53,21 +51,10 @@ export const setBarStatus = (barStatus, positionMillis, durationMillis) => {
   };
 };
 
-// export const playMyList = (list, index, listTitle) => {
-//   return {
-//     type: PLAY_MY_LIST,
-//     payload: list,
-//     index: index,
-//     listTitle: listTitle,
-//   };
-// };
-
 export const getTracks = (id, listTitle) => async dispatch => {
   try {
     const res = await instance.get(`playlists/${id}/tracks`);
-    // instance.defaults.headers.common['Authorization'] = store.getState(
-    //   store.index
-    // );
+
     let randomIndex = Math.floor(
       Math.random() * Math.floor(res.data.items.length)
     );
