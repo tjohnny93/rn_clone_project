@@ -73,8 +73,6 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
       playerStatus
     );
     setSound(sound);
-    // getProgress();
-    // await sound.playAsync();
   };
 
   const playController = async () => {
@@ -102,7 +100,6 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
           style={{
             backgroundColor: '#1DB954',
             height: 8,
-            // width: `${getProgress()}%`,
             width: `${getProgress()}%`,
           }}
         />
@@ -168,12 +165,10 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
             <Icon name="ios-bluetooth" size={28} color="white" />
           </TouchableOpacity>
           <TouchableOpacity
-            // onPress={() => playController()}
             onPress={() => playController()}
             style={{ paddingLeft: 28 }}
           >
             <Icon name={PLAY_ICON[isPlaying]} size={36} color="white" />
-            {/* <Icon name={PLAY_ICON[false]} size={36} color="white" /> */}
           </TouchableOpacity>
         </View>
       </View>
@@ -196,18 +191,6 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
             if (!isFocused && !event.defaultPrevented) {
               navigation.navigate(route.name);
             }
-            // if (isFocused) {
-            //   navigation.navigate(route.name);
-            // }
-            // if (isFocused) {
-            //   navigation.reset({ index: 0, routes: [{ name: HomeStack }] });
-            //   // NavigationActions.reset({
-            //   //   index: 0,
-            //   //   actions: [
-            //   //     NavigationActions.navigate({ routeName: HomeStack }),
-            //   //   ],
-            //   // })
-            // }
           };
 
           const onLongPress = () => {
