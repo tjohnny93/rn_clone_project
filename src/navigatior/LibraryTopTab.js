@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, SafeAreaView, Dimensions } from 'react-native';
+import { View, Text, Dimensions } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import MyPlayList from '../screens/LibraryTab/MyPlayList';
 import MyArtist from '../screens/LibraryTab/MyArtist';
@@ -9,7 +9,7 @@ const TopTab = createMaterialTopTabNavigator();
 
 export default function LibraryTopTab({ navigation }) {
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#212121' }}>
+    <View style={{ flex: 1, backgroundColor: '#212121' }}>
       <View style={{ height: 80 }}>
         <Text
           style={{
@@ -65,6 +65,6 @@ export default function LibraryTopTab({ navigation }) {
           }}
         />
       </TopTab.Navigator>
-    </SafeAreaView>
+    </View>
   );
 }
