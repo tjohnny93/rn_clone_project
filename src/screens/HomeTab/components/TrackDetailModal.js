@@ -1,5 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet, Modal, Image } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Modal,
+  SafeAreaView,
+  Image,
+} from 'react-native';
 import {
   setNextMusic,
   setPrevMusic,
@@ -55,7 +62,7 @@ export default function TrackDetailModal({
 
   return (
     <Modal animationType="slide" transparent={true} visible={isVisible}>
-      <View style={styles.modalContainer}>
+      <SafeAreaView style={styles.modalContainer}>
         <BlurView tint="dark" intensity={100} style={{ flex: 1 }}>
           <View style={styles.headerWrapper}>
             <TouchableOpacity onPress={() => closeModal()}>
@@ -149,7 +156,7 @@ export default function TrackDetailModal({
             </View>
           </View>
         </BlurView>
-      </View>
+      </SafeAreaView>
     </Modal>
   );
 }
