@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  SafeAreaView,
   Image,
   ScrollView,
   Linking,
@@ -52,7 +51,7 @@ export default function ListDetail({ navigation, route }) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <ScrollView>
         <View style={{ alignItems: 'center', paddingTop: 24 }}>
           <Image
@@ -148,7 +147,7 @@ export default function ListDetail({ navigation, route }) {
           </TouchableOpacity>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 

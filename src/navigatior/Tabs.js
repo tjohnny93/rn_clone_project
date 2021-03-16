@@ -3,7 +3,6 @@ import { Audio } from 'expo-av';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import { setBarStatus, setNextMusic, setStatus } from '../actions/currentMusic';
 
@@ -229,27 +228,25 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
 
 export default function Tabs() {
   return (
-    <SafeAreaProvider>
-      <NavigationContainer>
-        <Tab.Navigator
-          initialRouteName="Home"
-          tabBar={props => <MyTabBar {...props} />}
-        >
-          <Tab.Screen
-            name="Home"
-            component={HomeStack}
-            listeners={({ navigation }) => ({
-              tabPress: e => {
-                navigation.navigate(HomeRoot);
-              },
-            })}
-          />
-          <Tab.Screen name="Search" component={SearchStack} />
-          <Tab.Screen name="Library" component={LibraryTopTab} />
-          <Tab.Screen name="Premium" component={PremiumRoot} />
-        </Tab.Navigator>
-      </NavigationContainer>
-    </SafeAreaProvider>
+    <NavigationContainer>
+      <Tab.Navigator
+        initialRouteName="Home"
+        tabBar={props => <MyTabBar {...props} />}
+      >
+        <Tab.Screen
+          name="Home"
+          component={HomeStack}
+          listeners={({ navigation }) => ({
+            tabPress: e => {
+              navigation.navigate(HomeRoot);
+            },
+          })}
+        />
+        <Tab.Screen name="Search" component={SearchStack} />
+        <Tab.Screen name="Library" component={LibraryTopTab} />
+        <Tab.Screen name="Premium" component={PremiumRoot} />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
 
